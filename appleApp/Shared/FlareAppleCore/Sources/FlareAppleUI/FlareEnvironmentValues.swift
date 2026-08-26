@@ -1,7 +1,7 @@
 import SwiftUI
 import KotlinSharedUI
 
-public enum NetworkKind: Equatable {
+public enum NetworkKind: Equatable, Sendable {
     case wifi
     case cellular
 
@@ -16,23 +16,23 @@ public enum NetworkKind: Equatable {
 }
 
 private struct GlobalAppearanceKey: EnvironmentKey {
-    static let defaultValue = GlobalAppearance.companion.Default
+    nonisolated(unsafe) static let defaultValue = GlobalAppearance.companion.Default
 }
 
 private struct TimelineAppearanceKey: EnvironmentKey {
-    static let defaultValue = TimelineAppearance.companion.Default
+    nonisolated(unsafe) static let defaultValue = TimelineAppearance.companion.Default
 }
 
 private struct AiConfigKey: EnvironmentKey {
-    static let defaultValue = AppSettings.AiConfig.companion.default
+    nonisolated(unsafe) static let defaultValue = AppSettings.AiConfig.companion.default
 }
 
 private struct TranslateConfigKey: EnvironmentKey {
-    static let defaultValue = AppSettings.TranslateConfig()
+    nonisolated(unsafe) static let defaultValue = AppSettings.TranslateConfig()
 }
 
 private struct AppSettingsKey: EnvironmentKey {
-    static let defaultValue = AppSettings.companion.default
+    nonisolated(unsafe) static let defaultValue = AppSettings.companion.default
 }
 
 private struct NetworkKindKey: EnvironmentKey {

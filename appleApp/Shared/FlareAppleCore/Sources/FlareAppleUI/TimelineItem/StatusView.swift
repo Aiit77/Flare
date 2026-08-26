@@ -13,11 +13,11 @@ public enum TimelineMediaMenuAction {
 public typealias TimelineMediaActionHandler = (UiTimelineV2.Post, any UiMedia, TimelineMediaMenuAction) -> Void
 
 private struct TimelineMediaOpenActionKey: EnvironmentKey {
-    static let defaultValue: TimelineMediaOpenAction? = nil
+    nonisolated(unsafe) static let defaultValue: TimelineMediaOpenAction? = nil
 }
 
 private struct TimelineMediaActionHandlerKey: EnvironmentKey {
-    static let defaultValue: TimelineMediaActionHandler? = nil
+    nonisolated(unsafe) static let defaultValue: TimelineMediaActionHandler? = nil
 }
 
 public extension EnvironmentValues {

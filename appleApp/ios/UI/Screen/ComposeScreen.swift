@@ -204,14 +204,8 @@ struct ComposeScreen: View {
                     }
                 }
                 .confirmationDialog("Draft", isPresented: $showDraftConfirmation, titleVisibility: .visible) {
-                    if #available(iOS 26.0, *) {
-                        Button("Save Draft", role: .confirm) {
-                            saveDraft(shouldDismiss: true)
-                        }
-                    } else {
-                        Button("Save Draft") {
-                            saveDraft(shouldDismiss: true)
-                        }
+                    Button("Save Draft") {
+                        saveDraft(shouldDismiss: true)
                     }
                     Button("Cancel", role: .cancel) {
                         dismiss()

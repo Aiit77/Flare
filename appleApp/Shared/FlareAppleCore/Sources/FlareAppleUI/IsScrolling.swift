@@ -14,7 +14,7 @@ public final class IsScrollingState: ObservableObject {
 }
 
 private struct IsScrollingStateKey: EnvironmentKey {
-    static let defaultValue: IsScrollingState? = nil
+    nonisolated(unsafe) static let defaultValue: IsScrollingState? = nil
 }
 
 public extension EnvironmentValues {

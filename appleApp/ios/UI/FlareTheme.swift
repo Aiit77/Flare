@@ -30,9 +30,7 @@ struct FlareTheme<Content: View>: View {
                 guard url.isWebURL else {
                     return .systemAction(url)
                 }
-                if #available(iOS 26.0, *) {
-                    return .systemAction(url, prefersInApp: globalAppearance.inAppBrowser)
-                } else if globalAppearance.inAppBrowser {
+                if globalAppearance.inAppBrowser {
                     openedURL = url
                     return .handled
                 } else {

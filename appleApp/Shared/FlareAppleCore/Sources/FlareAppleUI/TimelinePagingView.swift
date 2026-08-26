@@ -191,7 +191,7 @@ private struct TimelinePagingRowView: View {
     }
 }
 
-private struct TimelinePagingRows: @MainActor RandomAccessCollection {
+private struct TimelinePagingRows: RandomAccessCollection {
     let success: PagingStateSuccess<UiTimelineV2>
     let count: Int
 

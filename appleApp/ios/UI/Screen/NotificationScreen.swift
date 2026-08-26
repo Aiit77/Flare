@@ -119,9 +119,6 @@ struct NotificationScreen: View {
                         )
                     }
                     if horizontalSizeClass == .regular && !isSyncingAccountSelection {
-                        if #available(iOS 26.0, *) {
-                            ToolbarSpacer()
-                        }
                         ToolbarItem {
                             filterSegments
                         }

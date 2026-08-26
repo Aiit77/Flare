@@ -421,15 +421,7 @@ public extension ActionMenu.ItemColor {
         case .red:
                 .destructive
         case .primaryColor:
-            #if os(iOS)
-            if #available(iOS 26.0, *) {
-                    .confirm
-            } else {
-                nil
-            }
-            #else
             nil
-            #endif
         default:
             nil
         }
@@ -500,7 +492,7 @@ public struct MacStatusShareData {
 public typealias MacCrossPostAction = (MacStatusShareData) -> Void
 
 private struct MacCrossPostActionKey: EnvironmentKey {
-    static let defaultValue: MacCrossPostAction? = nil
+    nonisolated(unsafe) static let defaultValue: MacCrossPostAction? = nil
 }
 
 public extension EnvironmentValues {

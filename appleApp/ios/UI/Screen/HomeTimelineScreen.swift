@@ -212,9 +212,6 @@ struct HomeTimelineScreen: View {
                                         .animation(.spring(response: 0.25, dampingFraction: 0.85), value: selectedTabId)
                                     }
                                 }
-                                if #available(iOS 26.0, *) {
-                                    ToolbarSpacer()
-                                }
                                 ToolbarItem(placement: .primaryAction) {
                                     Button {
                                         toTabSetting()
