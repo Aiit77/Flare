@@ -124,7 +124,7 @@ struct ProfileScreen: View {
         .onAppear {
             normalizeSelectedTab(tabCount: tabs.count)
         }
-        .onChange(of: tabs.count) { _, count in
+        .onChange(of: tabs.count) { count in
             normalizeSelectedTab(tabCount: count)
         }
     }

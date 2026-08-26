@@ -151,11 +151,11 @@ struct MacMediaViewerScreen: View {
         .onAppear {
             applyInitialSelectionIfNeeded()
         }
-        .onChange(of: mediaSignature) { _, _ in
+        .onChange(of: mediaSignature) { _ in
             applyInitialSelectionIfNeeded()
             pruneZoomScales()
         }
-        .onChange(of: selectedIndex) { _, newValue in
+        .onChange(of: selectedIndex) { newValue in
             if scrollPosition != newValue {
                 withAnimation(.snappy(duration: 0.24)) {
                     scrollPosition = newValue
@@ -210,7 +210,7 @@ struct MacMediaViewerScreen: View {
             .scrollTargetBehavior(.paging)
             .scrollPosition(id: $scrollPosition)
             .scrollDisabled(selectedZoomScale > macMediaMinimumZoomScale + 0.01)
-            .onChange(of: scrollPosition) { _, newValue in
+            .onChange(of: scrollPosition) { newValue in
                 guard let newValue else { return }
                 let nextIndex = clampedIndex(newValue, count: medias.count)
                 guard nextIndex != selectedIndex else { return }
@@ -556,10 +556,10 @@ private struct MacMediaViewerPage: View {
         .overlay(alignment: .bottomLeading) {
             imageLoadingProgressView
         }
-        .onChange(of: media.url) { _, _ in
+        .onChange(of: media.url) { _ in
             resetImageLoadingProgress()
         }
-        .onChange(of: isSelected) { _, newValue in
+        .onChange(of: isSelected) { newValue in
             if !newValue {
                 resetImageLoadingProgress()
             }

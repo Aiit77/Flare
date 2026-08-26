@@ -188,13 +188,13 @@ struct MacComposeScreen: View {
             presenter.state.setText(value: viewModel.text)
             presenter.state.setMediaSize(value: Int32(mediaItems.count))
         }
-        .onChange(of: viewModel.text) { _, newValue in
+        .onChange(of: viewModel.text) { newValue in
             presenter.state.setText(value: newValue)
         }
-        .onChange(of: mediaItems.count) { _, newValue in
+        .onChange(of: mediaItems.count) { newValue in
             presenter.state.setMediaSize(value: Int32(newValue))
         }
-        .onChange(of: presenter.state.initialTextState) { _, newValue in
+        .onChange(of: presenter.state.initialTextState) { newValue in
             guard !initialTextApplied else { return }
             if case .success(let initialText) = onEnum(of: newValue) {
                 initialTextApplied = true
@@ -204,7 +204,7 @@ struct MacComposeScreen: View {
                 applyCursorIfPossible()
             }
         }
-        .onChange(of: presenter.state.loadedDraftState) { _, newValue in
+        .onChange(of: presenter.state.loadedDraftState) { newValue in
             guard let newValue, case .success(let loadedDraft) = onEnum(of: newValue) else { return }
             applyDraft(loadedDraft.data)
             presenter.state.consumeLoadedDraft()

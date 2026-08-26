@@ -74,13 +74,13 @@ struct MacDirectMessagesScreen: View {
                 open(request.route)
             }
         }
-        .onChange(of: userItemsSignature) { _, _ in
+        .onChange(of: userItemsSignature) { _ in
             reconcileAccountSelection()
         }
-        .onChange(of: selectedAccountKey) { _, _ in
+        .onChange(of: selectedAccountKey) { _ in
             clearSelectedRoom()
         }
-        .onChange(of: windowCoordinator.request?.id) { _, _ in
+        .onChange(of: windowCoordinator.request?.id) { _ in
             if let request = windowCoordinator.request {
                 open(request.route)
             }
@@ -288,7 +288,7 @@ private struct MacDMRoomListColumn: View {
             content
         }
         .listStyle(.plain)
-        .onChange(of: selectedRoomID) { _, newValue in
+        .onChange(of: selectedRoomID) { newValue in
             syncSelection(id: newValue)
         }
         .refreshable {
@@ -738,7 +738,7 @@ private struct MacDMRoomResolver: View {
             .onSuccessOf(of: presenter.state.roomKey) { roomKey in
                 onResolved(roomKey)
             }
-            .onChange(of: presenter.state.roomKey) { _, newValue in
+            .onChange(of: presenter.state.roomKey) { newValue in
                 if case .error = onEnum(of: newValue) {
                     onFailed()
                 }

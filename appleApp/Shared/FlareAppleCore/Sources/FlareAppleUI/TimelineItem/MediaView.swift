@@ -123,7 +123,7 @@ public struct MediaVideoView: View {
                     }
                 }
                 .contentMode(.scaleAspectFill)
-                .onChange(of: effectiveIsScrolling) { _, newValue in
+                .onChange(of: effectiveIsScrolling) { newValue in
                     play = !newValue && isAppeared && canAutoplay
                 }
                 .onAppear {
@@ -164,13 +164,13 @@ public struct MediaVideoView: View {
                 isAppeared = true
                 updateMacPlayback()
             }
-            .onChange(of: effectiveIsScrolling) { _, _ in
+            .onChange(of: effectiveIsScrolling) { _ in
                 updateMacPlayback()
             }
-            .onChange(of: canAutoplay) { _, _ in
+            .onChange(of: canAutoplay) { _ in
                 updateMacPlayback()
             }
-            .onChange(of: data.url) { _, _ in
+            .onChange(of: data.url) { _ in
                 updateMacPlayback()
             }
             .task(id: play) {

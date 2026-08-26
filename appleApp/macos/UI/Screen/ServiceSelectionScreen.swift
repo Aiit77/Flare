@@ -56,7 +56,7 @@ struct ServiceSelectionScreen: View {
         }
         .formStyle(.grouped)
         .animation(MacOSServiceSelectionAnimation.standard, value: serviceContentKey(state: presenter.state))
-        .onChange(of: instanceInput) { _, newValue in
+        .onChange(of: instanceInput) { newValue in
             presenter.state.setFilter(value: newValue)
         }
         .navigationTitle("Login")
@@ -572,7 +572,7 @@ private struct LoginFieldView: View {
             LoginErrorText(message: field.error)
         }
         .disabled(field.readOnly)
-        .onChange(of: value) { _, newValue in
+        .onChange(of: value) { newValue in
             onUpdate(field.id, newValue)
         }
         .onSubmit {

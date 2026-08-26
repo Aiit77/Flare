@@ -136,7 +136,7 @@ struct Router: View {
             handleInitialActionRouteIfNeeded()
             handleExternalNavigationRequestIfNeeded(externalNavigationRequest)
         }
-        .onChange(of: externalNavigationRequest?.id) { _, _ in
+        .onChange(of: externalNavigationRequest?.id) { _ in
             handleExternalNavigationRequestIfNeeded(externalNavigationRequest)
         }
     }

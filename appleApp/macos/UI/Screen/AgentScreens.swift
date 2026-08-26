@@ -73,16 +73,16 @@ struct AgentChatHistoryScreen: View {
                 openAgentRoute(request.route)
             }
         }
-        .onChange(of: roomIds) { _, _ in
+        .onChange(of: roomIds) { _ in
             reconcileSelection()
         }
-        .onChange(of: selectedConversationId) { _, newValue in
+        .onChange(of: selectedConversationId) { newValue in
             if newValue != activeDetailConversationId {
                 activeDetailRoute = nil
                 activeDetailConversationId = nil
             }
         }
-        .onChange(of: windowCoordinator.request?.id) { _, _ in
+        .onChange(of: windowCoordinator.request?.id) { _ in
             if let request = windowCoordinator.request {
                 openAgentRoute(request.route)
             }

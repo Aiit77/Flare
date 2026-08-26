@@ -171,7 +171,7 @@ private struct CrossfadeNetworkImage: View {
         .onAppear {
             resetLoadingStateIfNeeded()
         }
-        .onChange(of: data) { _, _ in
+        .onChange(of: data) { _ in
             resetLoadingStateIfNeeded()
         }
         .onDisappear {

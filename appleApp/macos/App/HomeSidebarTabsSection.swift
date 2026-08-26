@@ -33,7 +33,7 @@ struct HomeSidebarTabsSection: View {
             editableTabs = liveTabs
             normalizeSelection(previousHomeTabIDs: nil)
         }
-        .onChange(of: liveTabs.map(\.id)) { oldValue, _ in
+        .onChange(of: liveTabs.map(\.id)) { _ in
             if !isCustomizing {
                 editableTabs = liveTabs
             }

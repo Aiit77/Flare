@@ -662,10 +662,10 @@ public struct MacStatusShareSheet: View {
             .onAppear {
                 renderScreenshot(data: state)
             }
-            .onChange(of: theme) { _, _ in
+            .onChange(of: theme) { _ in
                 renderScreenshot(data: state)
             }
-            .onChange(of: previewStyle) { _, _ in
+            .onChange(of: previewStyle) { _ in
                 renderScreenshot(data: state)
             }
         } errorContent: { error in

@@ -117,10 +117,10 @@ struct RssScreen: View {
             RssTimelineItemDetailScaffold(selection: selectedTimelineItem)
         }
         .onAppear(perform: reconcileSelection)
-        .onChange(of: sourceIds) { _, _ in
+        .onChange(of: sourceIds) { _ in
             reconcileSelection()
         }
-        .onChange(of: selectedSourceId) { _, _ in
+        .onChange(of: selectedSourceId) { _ in
             selectedTimelineItemID = nil
             selectedTimelineItem = nil
         }
@@ -256,7 +256,7 @@ private struct RssTimelineItemList: View {
         }
         .listStyle(.plain)
         .id(key)
-        .onChange(of: selectedItemID) { _, newValue in
+        .onChange(of: selectedItemID) { newValue in
             syncSelection(id: newValue)
         }
     }

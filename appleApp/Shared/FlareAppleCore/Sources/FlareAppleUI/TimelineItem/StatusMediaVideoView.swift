@@ -113,23 +113,23 @@ public struct VideoControlView: View {
             baselineSeconds = seconds
             baselineDate = Date()
         }
-        .onChange(of: currentTime.seconds) { _, newValue in
+        .onChange(of: currentTime.seconds) { newValue in
             guard !isSeeking, newValue.isFinite else { return }
             baselineSeconds = newValue
             baselineDate = Date()
             sliderValue = newValue
         }
-        .onChange(of: isPlaying) { _, playing in
+        .onChange(of: isPlaying) { playing in
             if playing {
                 baselineSeconds = sliderValue
                 baselineDate = Date()
             }
         }
-        .onChange(of: playbackRate) { _, _ in
+        .onChange(of: playbackRate) { _ in
             baselineSeconds = sliderValue
             baselineDate = Date()
         }
-        .onChange(of: duration) { _, newValue in
+        .onChange(of: duration) { newValue in
             if sliderValue > newValue {
                 sliderValue = newValue
             }
@@ -338,16 +338,16 @@ public struct StatusMediaVideoView: View {
                 configureMacPlayerIfNeeded()
                 updateMacPlayback()
             }
-            .onChange(of: play) { _, _ in
+            .onChange(of: play) { _ in
                 updateMacPlayback()
             }
-            .onChange(of: playbackRate) { _, _ in
+            .onChange(of: playbackRate) { _ in
                 updateMacPlayback()
             }
-            .onChange(of: time) { _, newValue in
+            .onChange(of: time) { newValue in
                 seekMacPlayerIfNeeded(to: newValue)
             }
-            .onChange(of: data.url) { _, _ in
+            .onChange(of: data.url) { _ in
                 configureMacPlayerIfNeeded()
                 updateMacPlayback()
             }

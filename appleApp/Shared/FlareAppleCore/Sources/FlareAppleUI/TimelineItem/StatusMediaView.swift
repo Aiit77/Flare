@@ -92,7 +92,7 @@ struct StatusMediaView: View {
         .if(!usesCarousel) { view in
             view.clipShape(.rect(cornerRadius: cornerRadius))
         }
-        .onChange(of: usesCarousel) { _, enabled in
+        .onChange(of: usesCarousel) { enabled in
             if enabled {
                 autoplayCarouselIndex = data.indices.first
             } else {
@@ -100,7 +100,7 @@ struct StatusMediaView: View {
                 autoplayCarouselIndex = nil
             }
         }
-        .onChange(of: data.count) { _, count in
+        .onChange(of: data.count) { count in
             if let activeCarouselIndex, activeCarouselIndex >= count {
                 self.activeCarouselIndex = nil
             }
@@ -155,7 +155,7 @@ struct StatusMediaView: View {
                     }
                     .scrollIndicators(.hidden)
                     .scrollPosition(id: $activeCarouselIndex, anchor: .center)
-                    .onChange(of: activeCarouselIndex) { _, index in
+                    .onChange(of: activeCarouselIndex) { index in
                         if let index, index != autoplayCarouselIndex {
                             autoplayCarouselIndex = nil
                         }

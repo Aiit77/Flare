@@ -23,7 +23,7 @@ struct AltTextEditSheet: View {
                     .keyboardType(.twitter)
                     .lineLimit(3...10)
                     .padding()
-                    .onChange(of: item.altText) { oldValue, newValue in
+                    .onChange(of: item.altText) { newValue in
                         if newValue.count > maxLength {
                             item.altText = String(newValue.prefix(maxLength))
                         }

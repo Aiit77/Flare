@@ -227,7 +227,7 @@ struct RootView: View {
         .onAppear {
             handleMainWindowNavigationRequest(mainWindowCoordinator.navigationRequest)
         }
-        .onChange(of: mainWindowCoordinator.navigationRequest?.id) { _, _ in
+        .onChange(of: mainWindowCoordinator.navigationRequest?.id) { _ in
             handleMainWindowNavigationRequest(mainWindowCoordinator.navigationRequest)
         }
     }

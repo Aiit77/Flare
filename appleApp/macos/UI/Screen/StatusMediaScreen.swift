@@ -24,7 +24,7 @@ struct MacStatusMediaResolver: View {
             .onAppear {
                 resolveIfNeeded()
             }
-            .onChange(of: presenter.state.status) { _, _ in
+            .onChange(of: presenter.state.status) { _ in
                 resolveIfNeeded()
             }
     }

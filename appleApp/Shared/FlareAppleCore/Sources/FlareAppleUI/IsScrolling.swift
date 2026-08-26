@@ -46,7 +46,7 @@ private struct DetectScrollingModifier: ViewModifier {
                 .onScrollPhaseChange { _, phase in
                     rawIsScrolling = (phase != .idle)
                 }
-                .onChange(of: rawIsScrolling) { _, newValue in
+                .onChange(of: rawIsScrolling) { newValue in
                     if newValue {
                         debounceTask?.cancel()
                         isScrolling = true

@@ -129,19 +129,19 @@ struct MediaViewerScreen<SupplementaryOverlay: View>: View {
         .onAppear {
             applyInitialSelectionIfNeeded()
         }
-        .onChange(of: mediaSignature) { _, _ in
+        .onChange(of: mediaSignature) { _ in
             applyInitialSelectionIfNeeded()
         }
-        .onChange(of: selectedIndex) { _, _ in
+        .onChange(of: selectedIndex) { _ in
             isPlaying = true
             videoState = .idle
             currentTime = .zero
             playbackRate = 1
         }
-        .onChange(of: isVideoActivelyPlaying) { _, newValue in
+        .onChange(of: isVideoActivelyPlaying) { newValue in
             updatePlaybackSession(playing: newValue)
         }
-        .onChange(of: isLandscapeViewing) { _, newValue in
+        .onChange(of: isLandscapeViewing) { newValue in
             MediaOrientationController.setLandscape(newValue)
         }
         .onDisappear {

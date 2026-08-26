@@ -22,7 +22,7 @@ struct TabSettingsScreen: View {
                             .font(.caption)
                             .foregroundColor(.secondary)
                     }
-                    .onChange(of: enableMixedTimeline) { _, value in
+                    .onChange(of: enableMixedTimeline) { value in
                         tabItems = withSystemHomeMixedTimelineEnabled(tabItems, enabled: value)
                     }
                     if enableMixedTimeline {
@@ -96,7 +96,7 @@ struct TabSettingsScreen: View {
                 .onMove(perform: move)
             }
         }
-        .onChange(of: presenter.state.homeTimelineTabs) { oldValue, newValue in
+        .onChange(of: presenter.state.homeTimelineTabs) { newValue in
             if !loadedTabs, case .success(let tabs) = onEnum(of: newValue) {
                 tabItems = tabs.data.cast(UiTimelineTabItem.self)
                 enableMixedTimeline = tabItems.contains { isSystemHomeMixedTimeline($0) }

@@ -365,7 +365,7 @@ private struct MacSidebarAppearanceOverrideGroup<Content: View>: View {
                 .labelsHidden()
             }
         }
-        .onChange(of: overridesEnabled) { _, value in
+        .onChange(of: overridesEnabled) { value in
             withAnimation {
                 expanded = value
             }

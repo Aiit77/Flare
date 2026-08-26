@@ -93,13 +93,13 @@ struct NotificationScreen: View {
         .onAppear {
             syncSelectedFilterFromPresenter()
         }
-        .onChange(of: presenterSelectedFilterStableKey) { _, _ in
+        .onChange(of: presenterSelectedFilterStableKey) { _ in
             syncSelectedFilterFromPresenter()
         }
-        .onChange(of: supportedFiltersSignature) { _, _ in
+        .onChange(of: supportedFiltersSignature) { _ in
             syncSelectedFilterFromPresenter()
         }
-        .onChange(of: selectedFilterStableKey) { _, _ in
+        .onChange(of: selectedFilterStableKey) { _ in
             syncSelectedFilterToPresenter()
         }
     }

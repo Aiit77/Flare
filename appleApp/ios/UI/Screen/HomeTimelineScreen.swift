@@ -123,7 +123,14 @@ struct HomeTimelineScreen: View {
                                 .transition(.move(edge: .top).combined(with: .opacity))
                             }
                         }
-                        .onChange(of: tabs.map { $0.id }, initial: true) { _, tabIds in
+                        .onAppear {
+                            let tabIds = tabs.map { $0.id }
+                            if let selectedTabId, tabIds.contains(selectedTabId) {
+                                return
+                            }
+                            selectedTabId = tabIds.first
+                        }
+                        .onChange(of: tabs.map { $0.id }) { tabIds in
                             if let selectedTabId, tabIds.contains(selectedTabId) {
                                 return
                             }

@@ -141,7 +141,7 @@ struct StatusShareSheet: View {
                 image = await renderImage(data: data)
             }
         }
-        .onChange(of: theme) { oldValue, newValue in
+        .onChange(of: theme) { newValue in
             if case .success(let data) = onEnum(of: presenter.state.status) {
                 image = nil
                 Task {
@@ -149,7 +149,7 @@ struct StatusShareSheet: View {
                 }
             }
         }
-        .onChange(of: previewStyle) { oldValue, newValue in
+        .onChange(of: previewStyle) { newValue in
             if case .success(let data) = onEnum(of: presenter.state.status) {
                 image = nil
                 Task {

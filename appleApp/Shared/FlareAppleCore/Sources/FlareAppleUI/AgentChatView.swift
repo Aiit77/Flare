@@ -217,7 +217,7 @@ private struct AgentChatInputBar: View {
             .glassEffect()
             .padding(.horizontal)
             .padding(.bottom)
-            .onChange(of: draft) { _, value in
+            .onChange(of: draft) { value in
                 onInputChange(value)
             }
     }

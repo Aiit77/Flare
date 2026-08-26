@@ -52,7 +52,7 @@ struct EditListScreen: View {
                                 }
                             }
                         }
-                        .onChange(of: avatar) { oldItem, newItem in
+                        .onChange(of: avatar) { newItem in
                               Task {
                                   if let data = try? await newItem?.loadTransferable(type: Data.self) {
                                       if let uiImage = UIImage(data: data) {
