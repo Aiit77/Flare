@@ -16,7 +16,9 @@ concurrency:
 jobs:
   build-ios15-ipa:
     name: Build unsigned iOS 15 IPA
-    runs-on: macos-15
+    # iOS-Backports 1.0.5 declares Swift tools 6.2; use the source project's
+    # macOS 26 image so the resolver has a compatible Swift/Xcode toolchain.
+    runs-on: macos-26
     timeout-minutes: 90
     env:
       IPA_NAME: Flare-1.7.4-ios15-unsigned.ipa
@@ -30,7 +32,7 @@ jobs:
         uses: actions/setup-java@v5
         with:
           distribution: zulu
-          java-version: '21'
+          java-version: '25'
           cache: gradle
 
       - name: Show build tools
