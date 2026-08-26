@@ -1,5 +1,6 @@
 import SwiftUI
 import PhotosUI
+import FlareAppleUI
 
 struct AltTextEditSheet: View {
     @Environment(\.dismiss) var dismiss

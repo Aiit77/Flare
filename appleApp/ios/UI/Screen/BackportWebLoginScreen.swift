@@ -1,6 +1,7 @@
 import SwiftUI
 import WebKit
 import Combine
+import FlareAppleUI
 
 struct BackportWebLoginScreen: View {
     @Environment(\.dismiss) var dismiss

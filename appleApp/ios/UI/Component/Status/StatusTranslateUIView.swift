@@ -260,7 +260,7 @@ final class StatusTranslateUIView: UIView, TimelineHeightProviding {
     }
 
     private func currentTargetLanguage() -> String {
-        Locale.current.language.languageCode?.identifier ?? "en"
+        Locale.current.languageCode ?? "en"
     }
 
     private func setNeedsHeightUpdate() {

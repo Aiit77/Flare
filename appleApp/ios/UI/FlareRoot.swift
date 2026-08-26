@@ -75,8 +75,6 @@ struct FlareRoot: View {
                 NotificationCenter.default.post(name: .tabDoubleTapped, object: selectedTab)
             })
             .tabViewStyle(.sidebarAdaptable)
-            .backport
-            .tabBarMinimizeBehavior(.onScrollDown)
             .background(Color(.systemGroupedBackground))
             .sheet(item: $reloginRoute) { route in
                 FlareNavigationStack {
@@ -224,7 +222,7 @@ private struct TabBarDoubleTapModifier: ViewModifier {
     let action: () -> Void
 
     func body(content: Content) -> some View {
-        content.introspect(.tabView, on: .iOS(.v17, .v18, .v26, .v27)) { tabBarController in
+        content.introspect(.tabView, on: .iOS(.v17, .v18, .v26)) { tabBarController in
             target.install(on: tabBarController.tabBar, action: action)
         }
     }

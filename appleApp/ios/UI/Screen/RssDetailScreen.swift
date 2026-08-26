@@ -4,6 +4,7 @@ import KotlinSharedUI
 import SafariServices
 import SwiftUIBackports
 import WebKit
+import UIKit
 import FlareAppleCore
 
 struct RssDetailScreen: View {
@@ -116,7 +117,7 @@ private struct RssTranslateProvider<Content: View>: View {
             presenter: RssDetailTranslatePresenter(
                 htmlContent: document.content,
                 title: document.title,
-                targetLanguage: Locale.current.language.languageCode?.identifier ?? "en"
+                targetLanguage: Locale.current.languageCode ?? "en"
             )
         ))
     }
@@ -229,12 +230,7 @@ private struct RssArticleContentView: View {
         .toolbar {
             ToolbarItem {
                 if let url = URL(string: url) {
-                    ShareLink(
-                        item: url,
-                        subject: Text(document.title),
-                        message: Text(document.title),
-                        preview: SharePreview(document.title)
-                    ) {
+                    RssActivityShareButton(items: [url]) {
                         Image(fontAwesome: .shareNodes)
                     }
                 }
@@ -256,6 +252,29 @@ private struct RssArticleContentView: View {
                 }
             }
         }
+    }
+}
+
+private struct RssActivityShareButton<LabelContent: View>: View {
+    let items: [Any]
+    @ViewBuilder let label: () -> LabelContent
+
+    var body: some View {
+        Button {
+            presentShareSheet()
+        } label: {
+            label()
+        }
+    }
+
+    @MainActor
+    private func presentShareSheet() {
+        guard let scene = UIApplication.shared.connectedScenes
+            .compactMap({ $0 as? UIWindowScene })
+            .first(where: { $0.activationState == .foregroundActive }),
+            let presenter = scene.windows.first(where: { $0.isKeyWindow })?.rootViewController
+        else { return }
+        presenter.present(UIActivityViewController(activityItems: items, applicationActivities: nil), animated: true)
     }
 }
 

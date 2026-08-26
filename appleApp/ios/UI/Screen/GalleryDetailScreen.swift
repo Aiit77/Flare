@@ -147,7 +147,6 @@ struct GalleryDetailScreen: View {
                 .navigationTitle("Info")
                 .navigationBarTitleDisplayMode(.inline)
             }
-            .presentationDetents([.medium, .large])
         }
     }
 

@@ -7,6 +7,7 @@ import VideoPlayer
 import Drops
 import WebKit
 import FlareAppleCore
+import FlareAppleUI
 
 struct StorageScreen: View {
     private let storagePresenter: StoragePresenter

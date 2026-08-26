@@ -113,10 +113,12 @@ enum MediaOrientationController {
             return
         }
 
-        scene.mediaKeyWindow?.rootViewController?.setNeedsUpdateOfSupportedInterfaceOrientations()
-        let orientations: UIInterfaceOrientationMask = enabled ? .landscapeRight : .portrait
-        scene.requestGeometryUpdate(.iOS(interfaceOrientations: orientations)) { error in
-            print("Media orientation request failed: \(error)")
+        if #available(iOS 16.0, *) {
+            scene.mediaKeyWindow?.rootViewController?.setNeedsUpdateOfSupportedInterfaceOrientations()
+            let orientations: UIInterfaceOrientationMask = enabled ? .landscapeRight : .portrait
+            scene.requestGeometryUpdate(.iOS(interfaceOrientations: orientations)) { error in
+                print("Media orientation request failed: \(error)")
+            }
         }
     }
 }

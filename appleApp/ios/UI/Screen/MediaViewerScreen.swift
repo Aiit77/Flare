@@ -241,7 +241,7 @@ struct MediaViewerScreen<SupplementaryOverlay: View>: View {
         } else {
             bottomOverlayContent
                 .padding()
-                .safeAreaPadding(.bottom)
+                .padding(.bottom)
                 .transition(.move(edge: .bottom).combined(with: .opacity))
         }
     }

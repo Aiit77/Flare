@@ -2,12 +2,38 @@ import SwiftUI
 import KotlinSharedUI
 import SwiftUIBackports
 import UniformTypeIdentifiers
+import UIKit
 import FlareAppleCore
 import FlareAppleUI
 
 private enum SharePreviewStyle: Hashable {
     case card
     case content
+}
+
+private struct ActivityShareButton<LabelContent: View>: View {
+    let items: [Any]
+    @ViewBuilder let label: () -> LabelContent
+
+    var body: some View {
+        Button {
+            presentShareSheet()
+        } label: {
+            label()
+        }
+    }
+
+    @MainActor
+    private func presentShareSheet() {
+        guard let scene = UIApplication.shared.connectedScenes
+            .compactMap({ $0 as? UIWindowScene })
+            .first(where: { $0.activationState == .foregroundActive }),
+            let presenter = scene.windows.first(where: { $0.isKeyWindow })?.rootViewController
+        else { return }
+
+        let controller = UIActivityViewController(activityItems: items, applicationActivities: nil)
+        presenter.present(controller, animated: true)
+    }
 }
 
 struct StatusShareSheet: View {
@@ -75,13 +101,13 @@ struct StatusShareSheet: View {
                     .disabled(image == nil)
 
                     if let url = URL(string: shareUrl) {
-                        ShareLink(item: url) {
+                        ActivityShareButton(items: [url]) {
                             Label("share_link", systemImage: "link")
                         }
                     }
                     
                     if let image {
-                        ShareLink(item: Image(uiImage: image), preview: SharePreview("share_screenshot", image: Image(uiImage: image))) {
+                        ActivityShareButton(items: [image]) {
                             Label("share_screenshot", systemImage: "photo")
                         }
                     }
@@ -93,13 +119,13 @@ struct StatusShareSheet: View {
                     }
                     
                     if let fxShareUrl, let url = URL(string: fxShareUrl) {
-                        ShareLink(item: url) {
+                        ActivityShareButton(items: [url]) {
                             Label("share_via_fxembed", systemImage: "link")
                         }
                     }
                     
                     if let fixvxShareUrl, let url = URL(string: fixvxShareUrl) {
-                        ShareLink(item: url) {
+                        ActivityShareButton(items: [url]) {
                             Label("share_via_fixvx", systemImage: "link")
                         }
                     }

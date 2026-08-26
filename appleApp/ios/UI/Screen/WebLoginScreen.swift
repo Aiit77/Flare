@@ -1,6 +1,7 @@
 import SwiftUI
 import WebKit
 import Combine
+import FlareAppleUI
 
 @available(iOS 26.0, *)
 struct WebLoginScreen: View {

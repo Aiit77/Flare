@@ -11,7 +11,6 @@ struct EditListScreen: View {
     private let listId: String
     @State private var title: String = ""
     @State private var desc: String = ""
-    @State private var avatar: PhotosPickerItem? = nil
     @State private var selectedImage: Image?
     @State private var isLoading: Bool = false
     @State private var showEditMember: Bool = false
@@ -27,40 +26,29 @@ struct EditListScreen: View {
             StateView(state: presenter.state.supportedMetaData) { supportedMetadata in
                 if supportedMetadata.contains(ListMetaDataType.avatar) {
                     Section {
-                        PhotosPicker(selection: $avatar, matching: .any(of: [.images, .videos, .livePhotos])) {
-                            if let selectedImage {
-                                selectedImage
-                                    .resizable()
-                                    .scaledToFit()
-                                    .frame(width: 96, height: 96)
-                            } else {
-                                StateView(state: presenter.state.listInfo) { info in
-                                    let avatar: String? = switch onEnum(of: info) {
-                                    case .list(let data): data.avatar
-                                    case .feed(let data): data.avatar
-                                    default: nil
-                                    }
-                                    if let remote = avatar {
-                                        NetworkImage(data: remote)
-                                            .frame(width: 96, height: 96)
-                                    } else {
-                                        Image(fontAwesome: .squareRss)
-                                            .resizable()
-                                            .scaledToFit()
-                                            .frame(width: 96, height: 96)
-                                    }
+                        if let selectedImage {
+                            selectedImage
+                                .resizable()
+                                .scaledToFit()
+                                .frame(width: 96, height: 96)
+                        } else {
+                            StateView(state: presenter.state.listInfo) { info in
+                                let avatar: String? = switch onEnum(of: info) {
+                                case .list(let data): data.avatar
+                                case .feed(let data): data.avatar
+                                default: nil
+                                }
+                                if let remote = avatar {
+                                    NetworkImage(data: remote)
+                                        .frame(width: 96, height: 96)
+                                } else {
+                                    Image(fontAwesome: .squareRss)
+                                        .resizable()
+                                        .scaledToFit()
+                                        .frame(width: 96, height: 96)
                                 }
                             }
                         }
-                        .onChange(of: avatar) { newItem in
-                              Task {
-                                  if let data = try? await newItem?.loadTransferable(type: Data.self) {
-                                      if let uiImage = UIImage(data: data) {
-                                          selectedImage = Image(uiImage: uiImage)
-                                      }
-                                  }
-                              }
-                          }
                     } header: {
                         Text("list_edit_avatar")
                     }
@@ -155,24 +143,12 @@ struct EditListScreen: View {
                 Button {
                     Task {
                         isLoading = true
-                        let imageData = try? await avatar?.loadTransferable(type: Data.self)
-                        let imageByteArray = imageData.map { KotlinByteArray.from(data: $0) }
-                        if let imageByteArray, let avatar {
-                            try? await presenter.state.updateList(
-                                listMetaData: .init(
-                                    title: self.title,
-                                    description: self.desc.isEmpty ? nil : self.desc,
-                                    avatar: .init(name: avatar.itemIdentifier, data: imageByteArray, type: .image)
-                                )
+                        try? await presenter.state.updateList(
+                            listMetaData: .init(
+                                title: self.title,
+                                description: self.desc.isEmpty ? nil : self.desc
                             )
-                        } else {
-                            try? await presenter.state.updateList(
-                                listMetaData: .init(
-                                    title: self.title,
-                                    description: self.desc.isEmpty ? nil : self.desc,
-                                )
-                            )
-                        }
+                        )
                         isLoading = false
                         dismiss()
                     }

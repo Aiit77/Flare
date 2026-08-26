@@ -280,17 +280,10 @@ struct ComposeScreen: View {
     @ViewBuilder
     private var composeMediaPicker: some View {
         if presenter.state.mediaEnabled {
-            PhotosPicker(
-                selection: Binding(get: {
-                    mediaViewModel.selectedItems
-                }, set: { value in
-                    mediaViewModel.selectedItems = value
-                    mediaViewModel.update()
-                }),
-                maxSelectionCount: mediaViewModel.maxSize,
-                matching: .any(of: [.images, .videos, .livePhotos])
-            ) {
-                Image(fontAwesome: .image)
+            if #available(iOS 16.0, *) {
+                ComposePhotosPicker(mediaViewModel: mediaViewModel)
+            } else {
+                EmptyView()
             }
         }
     }
@@ -346,7 +339,6 @@ struct ComposeScreen: View {
             .padding(8)
         }
         .frame(minWidth: 280, maxWidth: 340, maxHeight: 420)
-        .presentationDetents([.medium, .large])
     }
 
     private func accountPickerButton(
@@ -591,41 +583,32 @@ struct ComposeScreen: View {
                 showDraftSheet = false
             }
         }
-        .presentationDetents([.medium, .large])
     }
 
 }
 
 class MediaViewModel: ObservableObject {
-    @Published var selectedItems: [PhotosPickerItem] = []
     @Published var items: [MediaItem] = []
     @Published var sensitive = false
     @Published var maxSize = 4
     @Published var enableAltText = true
     @Published var altTextMaxLength = 500
-    func update() {
-        if selectedItems.count > maxSize {
-            selectedItems = Array(selectedItems.suffix(maxSize))
-        }
-        items = selectedItems.map { item in
-            MediaItem(item: item)
-        }
+
+    func add(data: Data, fileName: String) {
+        guard items.count < maxSize, let item = MediaItem(data: data, fileName: fileName) else { return }
+        items.append(item)
     }
+
     func restore(draftMedias: [UiDraftMedia]) {
-        selectedItems = []
         items = draftMedias.compactMap(MediaItem.init(draftMedia:))
     }
+
     func setInitialImage(data: Data, fileName: String) {
-        selectedItems = []
         items = MediaItem(data: data, fileName: fileName).map { [$0] } ?? []
     }
+
     func remove(item: MediaItem) {
-        if let index = items.firstIndex(of: item) {
-            items.remove(at: index)
-            if selectedItems.indices.contains(index) {
-                selectedItems.remove(at: index)
-            }
-        }
+        items.removeAll { $0 == item }
     }
 }
 
@@ -633,45 +616,15 @@ class MediaItem: ObservableObject, Equatable, Identifiable {
     static func == (lhs: MediaItem, rhs: MediaItem) -> Bool {
         lhs.id == rhs.id
     }
-    let item: PhotosPickerItem?
     @Published var image: UIImage?
     @Published var data: Data?
     @Published var altText: String = ""
     let id: String
     let fileName: String
     @Published var type: FileType = .other
-    
-    init(item: PhotosPickerItem) {
-        self.item = item
-        self.id = item.itemIdentifier ?? UUID().uuidString
-        self.fileName = item.itemIdentifier ?? UUID().uuidString
-        
-        if let contentType = item.supportedContentTypes.first {
-            if contentType.conforms(to: .image) {
-                self.type = .image
-            } else if contentType.conforms(to: .movie) {
-                self.type = .video
-            }
-        }
-        
-        item.loadTransferable(type: Data.self) { result in
-            do {
-                if let data = try result.get() {
-                    if let uiImage = UIImage(data: data) {
-                        DispatchQueue.main.async {
-                            self.data = data
-                            self.image = uiImage
-                        }
-                    }
-                }
-            } catch {
-            }
-        }
-    }
 
     init?(data: Data, fileName: String) {
         guard let image = UIImage(data: data) else { return nil }
-        self.item = nil
         self.id = UUID().uuidString
         self.fileName = fileName
         self.data = data
@@ -685,7 +638,6 @@ class MediaItem: ObservableObject, Equatable, Identifiable {
             return nil
         }
 
-        self.item = nil
         self.id = draftMedia.cachePath
         self.fileName = draftMedia.fileName ?? fileURL.lastPathComponent
         self.data = data
@@ -699,6 +651,34 @@ class MediaItem: ObservableObject, Equatable, Identifiable {
             self.type = .video
         default:
             self.type = .other
+        }
+    }
+}
+
+@available(iOS 16.0, *)
+private struct ComposePhotosPicker: View {
+    @ObservedObject var mediaViewModel: MediaViewModel
+    @State private var selectedItems: [PhotosPickerItem] = []
+
+    var body: some View {
+        PhotosPicker(
+            selection: $selectedItems,
+            maxSelectionCount: mediaViewModel.maxSize,
+            matching: .any(of: [.images, .videos, .livePhotos])
+        ) {
+            Image(fontAwesome: .image)
+        }
+        .onChange(of: selectedItems) { items in
+            for item in items {
+                let fileName = item.itemIdentifier ?? UUID().uuidString
+                item.loadTransferable(type: Data.self) { result in
+                    guard case .success(let maybeData) = result, let data = maybeData else { return }
+                    DispatchQueue.main.async {
+                        mediaViewModel.add(data: data, fileName: fileName)
+                    }
+                }
+            }
+            selectedItems = []
         }
     }
 }
