@@ -81,11 +81,6 @@ packages:
   SwiftUI-Flow:
     url: https://github.com/tevelee/SwiftUI-Flow
     exactVersion: 3.1.1
-  # Temporary fork: upstream Textual currently requires iOS 18 / macOS 15, while Flare still
-  # supports iOS 17 / macOS 14. Switch back to gonzalezreal/textual when that is compatible.
-  Textual:
-    url: https://github.com/Tlaster/textual
-    branch: main
   swiftui-introspect:
     url: https://github.com/siteline/swiftui-introspect
     exactVersion: 27.0.0-beta.1
@@ -170,7 +165,6 @@ targets:
       - package: CHTCollectionViewWaterfallLayout
       - package: GSPlayer
       - package: ChatLayout
-      - package: Textual
       - target: FlareAppleCore
         destinationFilters: [iOS]
       - target: FlareAppleUI
@@ -250,7 +244,6 @@ targets:
         product: SwiftUIIntrospect
       - package: SwiftUI-Flow
         product: Flow
-      - package: Textual
       - target: FlareAppleCore
         destinationFilters: [macOS]
       - target: FlareAppleUI
@@ -356,7 +349,6 @@ targets:
       - package: VideoPlayer
         destinationFilters: [iOS]
         link: false
-      - package: Textual
         link: false
       - target: FlareAppleCore
     preBuildScripts:
