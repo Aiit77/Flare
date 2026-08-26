@@ -9,10 +9,6 @@ on:
 permissions:
   contents: read
 
-concurrency:
-  group: ios15-ipa-${{ github.ref }}
-  cancel-in-progress: true
-
 jobs:
   build-ios15-ipa:
     name: Build unsigned iOS 15 IPA
