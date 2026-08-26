@@ -70,8 +70,8 @@ packages:
     url: https://github.com/SimplyDanny/SwiftLintPlugins
     exactVersion: 0.62.2
   SwiftUI-Flow:
-    url: https://github.com/tevelee/SwiftUI-Flow
-    exactVersion: 3.1.1
+    url: https://github.com/DonkeyRepublic/SwiftUI-Flow-iOS-15
+    branch: main
   swiftui-introspect:
     url: https://github.com/siteline/swiftui-introspect
     exactVersion: 26.0.1
