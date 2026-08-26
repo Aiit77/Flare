@@ -44,7 +44,7 @@ kotlin {
             // devirtualization analysis exhausts the hosted macOS runner during Release
             // linking, while this optimization does not affect functional behavior.
             appleTarget.compilations.configureEach {
-                compilerOptions {
+                this.compilerOptions {
                     freeCompilerArgs.add("-Xdisable-phases=DevirtualizationAnalysis")
                 }
             }
