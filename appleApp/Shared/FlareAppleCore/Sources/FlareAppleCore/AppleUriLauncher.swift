@@ -9,8 +9,10 @@ public final class AppleUriLauncher: UriLauncher {
     }
 
     public func launch(uri: String) {
-        if let url = URL(string: uri) {
-            openUrl.callAsFunction(url)
+        guard let url = URL(string: uri) else { return }
+        let action = openUrl
+        Task { @MainActor in
+            action(url)
         }
     }
 }
