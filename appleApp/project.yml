@@ -65,8 +65,10 @@ packages:
     url: https://github.com/wxxsw/GSPlayer
     from: 0.2.30
   iOS-Backports:
-    url: https://github.com/superwall/iOS-Backports
-    exactVersion: 1.0.5
+    # superwall/iOS-Backports 1.0.5 requires iOS 17. Use the compatible
+    # SwiftUIBackports implementation for the reconstructed iOS 15 build.
+    url: https://github.com/shaps80/SwiftUIBackports
+    exactVersion: 26.0.0
   Kingfisher:
     url: https://github.com/onevcat/Kingfisher.git
     exactVersion: 8.10.0
