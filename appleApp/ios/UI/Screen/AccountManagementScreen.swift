@@ -49,7 +49,7 @@ struct AccountManagementScreen: View {
         }
         .onChange(of: tabItems) { newValue in
             presenter.state.setOrder(value: newValue.map { item in item.account.accountKey })
-        })
+        }
         .alert("logout_title", isPresented: Binding(get: {
             pendingLogoutAccountKey != nil
         }, set: { value in
