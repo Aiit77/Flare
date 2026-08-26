@@ -88,7 +88,7 @@ struct StatusMediaView: View {
             }
         }
         .if(!usesCarousel) { view in
-            view.clipShape(.rect(cornerRadius: cornerRadius))
+            view.clipShape(RoundedRectangle(cornerRadius: cornerRadius))
         }
         .onChange(of: usesCarousel) { enabled in
             if enabled {
@@ -374,7 +374,6 @@ struct AltTextOverlay: View {
             Text(altText)
                 .padding()
                 .frame(width: 280)
-                .presentationCompactAdaptation(.popover)
         }
     }
 }

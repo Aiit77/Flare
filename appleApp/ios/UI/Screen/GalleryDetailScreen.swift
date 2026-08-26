@@ -46,51 +46,55 @@ struct GalleryDetailScreen: View {
         .navigationTitle("")
         .navigationBarTitleDisplayMode(.inline)
         .toolbar {
-            if !isBigScreen {
-                ToolbarItem(placement: .principal) {
+            ToolbarItem(placement: .principal) {
+                if !isBigScreen {
                     GalleryCompactToolbarTitle(detailState: presenter.state.detail) {
                         navigateToProfile($0)
                     }
                 }
+            }
 
-                ToolbarItemGroup(placement: .primaryAction) {
-                    Button {
-                        switch onEnum(of: presenter.state.detail) {
-                        case .success(let success):
-                            navigateToShare(success.data)
-                        case .loading, .error:
-                            break
+            ToolbarItem(placement: .primaryAction) {
+                if !isBigScreen {
+                    HStack(spacing: 12) {
+                        Button {
+                            switch onEnum(of: presenter.state.detail) {
+                            case .success(let success):
+                                navigateToShare(success.data)
+                            case .loading, .error:
+                                break
+                            }
+                        } label: {
+                            Image(fontAwesome: .shareNodes)
                         }
-                    } label: {
-                        Image(fontAwesome: .shareNodes)
-                    }
-                    .disabled({
-                        switch onEnum(of: presenter.state.detail) {
-                        case .success:
-                            return false
-                        case .loading, .error:
-                            return true
-                        }
-                    }())
+                        .disabled({
+                            switch onEnum(of: presenter.state.detail) {
+                            case .success:
+                                return false
+                            case .loading, .error:
+                                return true
+                            }
+                        }())
 
-                    Button {
-                        switch onEnum(of: presenter.state.detail) {
-                        case .success:
-                            showInfoSheet = true
-                        case .loading, .error:
-                            break
+                        Button {
+                            switch onEnum(of: presenter.state.detail) {
+                            case .success:
+                                showInfoSheet = true
+                            case .loading, .error:
+                                break
+                            }
+                        } label: {
+                            Image(fontAwesome: .chevronDown)
                         }
-                    } label: {
-                        Image(fontAwesome: .chevronDown)
+                        .disabled({
+                            switch onEnum(of: presenter.state.detail) {
+                            case .success:
+                                return false
+                            case .loading, .error:
+                                return true
+                            }
+                        }())
                     }
-                    .disabled({
-                        switch onEnum(of: presenter.state.detail) {
-                        case .success:
-                            return false
-                        case .loading, .error:
-                            return true
-                        }
-                    }())
                 }
             }
         }

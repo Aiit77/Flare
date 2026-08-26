@@ -167,7 +167,7 @@ struct StatusShareSheet: View {
             .background(Color(.secondarySystemGroupedBackground))
             .if(previewStyle == .card) { view in
                 view
-                    .clipShape(.rect(cornerRadius: 16))
+                    .clipShape(RoundedRectangle(cornerRadius: 16))
                     .contentShape(RoundedRectangle(cornerRadius: 16))
                     .shadow(radius: 8)
                     .padding(64)

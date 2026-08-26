@@ -19,7 +19,7 @@ public struct AntennasListScreen<Destination: Hashable>: View {
     public var body: some View {
         List {
             PagingView(data: presenter.state.data) { item in
-                NavigationLink(
+                FlareNavigationLink(
                     value: timelineDestination(presenter.state.timelineTabItem(item: item))
                 ) {
                     UiListView(data: item)

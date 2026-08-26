@@ -28,7 +28,7 @@ public struct AllListScreen<Destination: Hashable>: View {
     public var body: some View {
         List {
             PagingView(data: presenter.state.items) { item in
-                NavigationLink(
+                FlareNavigationLink(
                     value: timelineDestination(presenter.state.timelineTabItem(item: item))
                 ) {
                     UiListView(data: item)
@@ -136,8 +136,8 @@ public struct AllListScreen<Destination: Hashable>: View {
             }
         }
         .toolbar {
-            if createListContent != nil {
-                ToolbarItem(placement: .primaryAction) {
+            ToolbarItem(placement: .primaryAction) {
+                if createListContent != nil {
                     Button {
                         showCreateListSheet = true
                     } label: {

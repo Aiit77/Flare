@@ -98,9 +98,9 @@ private struct EmojiSection: View {
     @State private var isExpanded = false
 
     var body: some View {
-        Section(isExpanded: $isExpanded) {
+        DisclosureGroup(isExpanded: $isExpanded) {
             EmojiGrid(items: value, onItemClicked: onItemClicked)
-        } header: {
+        } label: {
             Text(key)
                 .font(.body)
         }

@@ -42,8 +42,8 @@ struct RssScreen: View {
         }
         .navigationTitle("rss_title")
         .toolbar {
-            if !presenter.state.sources.isEmpty {
-                ToolbarItem {
+            ToolbarItem {
+                if !presenter.state.sources.isEmpty {
                     Button {
                         Task {
                             exportedOPMLContent = try? await ExportOPMLPresenter().export()

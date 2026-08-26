@@ -46,7 +46,7 @@ struct StatusCardView: View {
             }
             .padding(8)
         }
-        .clipShape(.rect(cornerRadius: cornerRadius))
+        .clipShape(RoundedRectangle(cornerRadius: cornerRadius))
         .overlay(
             RoundedRectangle(cornerRadius: cornerRadius)
                 .stroke(Color.flareSeparator, lineWidth: 1)
@@ -100,7 +100,7 @@ struct StatusCompatCardView: View {
             }
             .padding(8)
         }
-        .clipShape(.rect(cornerRadius: cornerRadius))
+        .clipShape(RoundedRectangle(cornerRadius: cornerRadius))
         .overlay(
             RoundedRectangle(cornerRadius: cornerRadius)
                 .stroke(Color.flareSeparator, lineWidth: 1)

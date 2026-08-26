@@ -20,7 +20,7 @@ public struct AllFeedScreen<Destination: Hashable>: View {
         List {
             Section {
                 PagingView(data: presenter.state.myFeeds) { item in
-                    NavigationLink(
+                    FlareNavigationLink(
                         value: timelineDestination(presenter.state.timelineTabItem(item: item))
                     ) {
                         UiListView(data: item)
@@ -35,7 +35,7 @@ public struct AllFeedScreen<Destination: Hashable>: View {
             Section {
                 PagingView(data: presenter.state.popularFeeds) { pair in
                     if let item = pair.first {
-                        NavigationLink(
+                        FlareNavigationLink(
                             value: timelineDestination(presenter.state.timelineTabItem(item: item))
                         ) {
                             UiListView(data: item)

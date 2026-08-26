@@ -344,7 +344,11 @@ private struct DiscoverHashtagSection: View {
 
     var body: some View {
         Section {
-            HFlow(spacing: 8) {
+            LazyVGrid(
+                columns: [GridItem(.adaptive(minimum: 88), spacing: 8)],
+                alignment: .leading,
+                spacing: 8
+            ) {
                 ForEach(0..<Int(hashtagsState.itemCount), id: \.self) { index in
                     if let item = hashtagsState.peek(index: Int32(index)) {
                         Button {

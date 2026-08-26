@@ -59,9 +59,9 @@ public struct ArticleScreen: View {
         }
         .articleNavigationBarTitleDisplayMode()
         .toolbar {
-            if let article = loadedArticle,
-               let sourceURL = article.sourceUrl.flatMap(URL.init(string:)) {
-                ToolbarItem {
+            ToolbarItem {
+                if let article = loadedArticle,
+                   let sourceURL = article.sourceUrl.flatMap(URL.init(string:)) {
                     Button {
                         openURL(sourceURL)
                     } label: {
@@ -69,36 +69,33 @@ public struct ArticleScreen: View {
                     }
                     .accessibilityLabel(Text("deep_link_account_picker_open_in_browser", bundle: FlareAppleUILocalization.bundle))
                 }
-                #if os(macOS)
-                if let onShareArticle {
-                    ToolbarItem {
-                        MacStatusShareMenu(
-                            data: MacStatusShareData(
-                                statusKey: articleKey,
-                                accountType: accountType,
-                                shareUrl: sourceURL.absoluteString
-                            ),
-                            onShareScreenshot: {
-                                onShareArticle(accountType, articleKey, sourceURL.absoluteString)
-                            }
-                        ) {
-                            Image(fontAwesome: .shareNodes)
-                        }
-                        .accessibilityLabel(Text("fx_share", bundle: FlareAppleUILocalization.bundle))
-                    }
-                }
-                #else
-                if let onShareArticle {
-                    ToolbarItem {
-                        Button {
+            }
+
+            ToolbarItem {
+                if let article = loadedArticle,
+                   let sourceURL = article.sourceUrl.flatMap(URL.init(string:)),
+                   let onShareArticle {
+                    #if os(macOS)
+                    MacStatusShareMenu(
+                        data: MacStatusShareData(
+                            statusKey: articleKey,
+                            accountType: accountType,
+                            shareUrl: sourceURL.absoluteString
+                        ),
+                        onShareScreenshot: {
                             onShareArticle(accountType, articleKey, sourceURL.absoluteString)
-                        } label: {
-                            Image(fontAwesome: .shareNodes)
                         }
-                        .accessibilityLabel(Text("fx_share", bundle: FlareAppleUILocalization.bundle))
+                    ) {
+                        Image(fontAwesome: .shareNodes)
                     }
+                    #else
+                    Button {
+                        onShareArticle(accountType, articleKey, sourceURL.absoluteString)
+                    } label: {
+                        Image(fontAwesome: .shareNodes)
+                    }
+                    #endif
                 }
-                #endif
             }
         }
     }
@@ -314,7 +311,7 @@ private struct ArticleRssAuthorView: View {
     let publishDate: UiDateTime?
 
     private var host: String? {
-        sourceUrl.flatMap(URL.init(string:))?.host()
+        sourceUrl.flatMap(URL.init(string:))?.host
     }
 
     var body: some View {
@@ -328,7 +325,7 @@ private struct ArticleRssAuthorView: View {
                         } else if let iconUrl = author.iconUrl {
                             NetworkImage(data: iconUrl)
                                 .frame(width: 16, height: 16)
-                                .clipShape(.rect(cornerRadius: 4))
+                                .clipShape(RoundedRectangle(cornerRadius: 4))
                         }
                         Text(siteName)
                             .font(.caption)
@@ -446,7 +443,7 @@ private struct ArticleMediaFrame<Content: View>: View {
         }
         .aspectRatio(aspectRatio, contentMode: .fit)
         .frame(maxWidth: .infinity, alignment: .leading)
-        .clipShape(.rect(cornerRadius: 12))
+        .clipShape(RoundedRectangle(cornerRadius: 12))
         .contentShape(Rectangle())
     }
 }
@@ -529,7 +526,7 @@ private struct ArticleEmbedBlockView: View {
             if let imageUrl = block.imageUrl {
                 NetworkImage(data: imageUrl)
                     .frame(width: 64, height: 64)
-                    .clipShape(.rect(cornerRadius: 8))
+                    .clipShape(RoundedRectangle(cornerRadius: 8))
             } else {
                 Image(fontAwesome: .globe)
                     .font(.title3)
@@ -630,7 +627,7 @@ private struct ArticleLoadingView: View {
                     Rectangle()
                         .fill(Color.gray.opacity(0.25))
                         .frame(height: 32)
-                        .clipShape(.rect(cornerRadius: 8))
+                        .clipShape(RoundedRectangle(cornerRadius: 8))
                     HStack(spacing: 12) {
                         Circle()
                             .fill(Color.gray.opacity(0.25))
@@ -649,7 +646,7 @@ private struct ArticleLoadingView: View {
                         Rectangle()
                             .fill(Color.gray.opacity(0.25))
                             .frame(height: index == 5 ? 80 : 16)
-                            .clipShape(.rect(cornerRadius: 8))
+                            .clipShape(RoundedRectangle(cornerRadius: 8))
                     }
                 }
                 .redacted(reason: .placeholder)

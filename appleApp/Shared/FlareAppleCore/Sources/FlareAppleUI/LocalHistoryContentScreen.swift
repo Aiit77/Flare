@@ -6,7 +6,6 @@ public struct LocalHistoryContentScreen<AskAiOverlay: View>: View {
     @Environment(\.timelineAppearance.aiConfig.agent) private var agentEnabled
     @StateObject private var presenter = KotlinPresenter(presenter: LocalCacheSearchPresenter())
     @State private var searchText = ""
-    @State private var isSearchPresented = false
     @State private var selection: LocalHistorySelection = .status
 
     private let onAskAi: (String?, String) -> Void
@@ -59,11 +58,10 @@ public struct LocalHistoryContentScreen<AskAiOverlay: View>: View {
         .navigationTitle(Text("local_history_title", bundle: .main))
         .searchable(
             text: $searchText,
-            isPresented: $isSearchPresented,
             prompt: Text("local_history_search_prompt", bundle: .main)
         )
         .overlay(alignment: .bottom) {
-            askAiOverlay(isSearchPresented, askAi)
+            askAiOverlay(false, askAi)
         }
         .onSubmit(of: .search) {
             submitSearch()
@@ -98,7 +96,6 @@ public struct LocalHistoryContentScreen<AskAiOverlay: View>: View {
 
     private func askAi() {
         let query = normalizedSearchText
-        isSearchPresented = false
         onAskAi(query.isEmpty ? nil : query, selection.agentTargetRouteValue)
     }
 
