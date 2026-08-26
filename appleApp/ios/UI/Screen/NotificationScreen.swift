@@ -80,6 +80,13 @@ struct NotificationScreen: View {
         }
     }
 
+    private func shouldRefreshForTabDoubleTap(_ notification: Notification) -> Bool {
+        guard notification.object as? String == HomeTabsPresenterStateHomeTabs.notifications.name.lowercased(),
+              case .success(let timeline) = onEnum(of: presenter.state.timeline)
+        else { return false }
+        return isAtTop && !isTabRefreshInFlight && !timeline.isRefreshing
+    }
+
     var body: some View {
         UITimelinePagingView(
             data: presenter.state.timeline,
@@ -93,9 +100,7 @@ struct NotificationScreen: View {
                 try? await presenter.state.refreshSuspend()
             }
             .onReceive(NotificationCenter.default.publisher(for: .tabDoubleTapped)) { notification in
-                guard notification.object as? String == HomeTabsPresenterStateHomeTabs.notifications.name.lowercased(),
-                      case .success(let timeline) = onEnum(of: presenter.state.timeline),
-                      isAtTop, !isTabRefreshInFlight, !timeline.isRefreshing else { return }
+                guard shouldRefreshForTabDoubleTap(notification) else { return }
                 isTabRefreshInFlight = true
                 UIImpactFeedbackGenerator(style: .medium).impactOccurred()
                 Task {

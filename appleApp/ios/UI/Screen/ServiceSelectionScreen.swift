@@ -1,7 +1,7 @@
 import SwiftUI
+import AuthenticationServices
 import FlareAppleUI
 @preconcurrency import KotlinSharedUI
-import AuthenticationServices
 import Foundation
 import WebKit
 import FlareAppleCore
@@ -364,9 +364,8 @@ struct ReloginScreen: View {
 }
 
 private struct LoginFlowView: View {
-    @Environment(\.webAuthenticationSession) private var webAuthenticationSession
-
     @StateObject private var presenter: KotlinPresenter<LoginFlowPresenterState>
+    @State private var authenticationSession: ASWebAuthenticationSession?
     @State private var qrContent: String?
     @State private var webCookieUrl: String?
 
@@ -495,18 +494,32 @@ private struct LoginFlowView: View {
             )
             return
         }
-        do {
-            let response = try await webAuthenticationSession.authenticate(
-                using: authURL,
+
+        await withCheckedContinuation { continuation in
+            let session = ASWebAuthenticationSession(
+                url: authURL,
                 callbackURLScheme: authURL.isPixivOAuthUrl ? "pixiv" : APPSCHEMA
-            )
-            presenter.state.resume(value: response.absoluteString)
-        } catch is CancellationError {
-            presenter.state.onExternalAuthenticationDismissed(error: nil)
-        } catch {
-            presenter.state.onExternalAuthenticationDismissed(
-                error: error.isCanceledWebAuthentication ? nil : error.localizedDescription
-            )
+            ) { callbackURL, error in
+                Task { @MainActor in
+                    authenticationSession = nil
+                    if let callbackURL {
+                        presenter.state.resume(value: callbackURL.absoluteString)
+                    } else {
+                        presenter.state.onExternalAuthenticationDismissed(
+                            error: error?.isCanceledWebAuthentication == true ? nil : error?.localizedDescription
+                        )
+                    }
+                    continuation.resume()
+                }
+            }
+            authenticationSession = session
+            if !session.start() {
+                authenticationSession = nil
+                presenter.state.onExternalAuthenticationDismissed(
+                    error: "Unable to start web authentication session"
+                )
+                continuation.resume()
+            }
         }
     }
 }

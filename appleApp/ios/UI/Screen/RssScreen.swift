@@ -8,7 +8,8 @@ struct RssScreen: View {
     @State private var showAddSheet = false
     @State private var selectedEditItem: UiRssSource? = nil
     @State private var importOpmlUrl: URL? = nil
-    @State private var exportedOPMLContent: String? = nil
+    @State private var exportedOPMLContent = ""
+    @State private var showingExportedOPML = false
 
     var body: some View {
         List {
@@ -40,30 +41,37 @@ struct RssScreen: View {
                 }
             }
         }
+        .sheet(isPresented: $showingExportedOPML) {
+            NavigationView {
+                ScrollView {
+                    Text(exportedOPMLContent)
+                        .textSelection(.enabled)
+                        .padding()
+                        .frame(maxWidth: .infinity, alignment: .leading)
+                }
+                .navigationTitle("flare_export.opml")
+                .toolbar {
+                    ToolbarItem(placement: .cancellationAction) {
+                        Button {
+                            showingExportedOPML = false
+                        } label: {
+                            Image(fontAwesome: .xmark)
+                        }
+                    }
+                }
+            }
+        }
         .navigationTitle("rss_title")
         .toolbar {
             ToolbarItem {
                 if !presenter.state.sources.isEmpty {
                     Button {
                         Task {
-                            exportedOPMLContent = try? await ExportOPMLPresenter().export()
+                            exportedOPMLContent = (try? await ExportOPMLPresenter().export()) ?? ""
+                            showingExportedOPML = !exportedOPMLContent.isEmpty
                         }
                     } label: {
                         Image(fontAwesome: .fileExport)
-                    }
-                    .fileExporter(
-                        isPresented: Binding(
-                            get: { exportedOPMLContent != nil },
-                            set: { newValue in
-                                if !newValue {
-                                    exportedOPMLContent = nil
-                                }
-                            }
-                        ),
-                        document: OPMLFile(initialText: exportedOPMLContent ?? ""),
-                        defaultFilename: "flare_export.opml"
-                    ) { _ in
-                        exportedOPMLContent = nil
                     }
                 }
             }

@@ -138,86 +138,20 @@ struct HomeTimelineScreen: View {
                         }
                         .toolbar {
                             leadingToolbarContent
-                            if horizontalSizeClass == .compact {
-                                ToolbarItem(placement: .title) {
-                                    Label {
-                                        TimelineTabTitle(title: tab.title)
-                                    } icon: {
-                                        TabIcon(tabItem: tab)
-                                    }
-                                    .labelStyle(.titleAndIcon)
-                                    .id(tab.id)
+                            ToolbarItem(placement: .principal) {
+                                Label {
+                                    TimelineTabTitle(title: tab.title)
+                                } icon: {
+                                    TabIcon(tabItem: tab)
                                 }
-                                ToolbarTitleMenu {
-                                    ForEach(tabs, id: \.id) { item in
-                                        Toggle(isOn: Binding(get: {
-                                            tab.id == item.id
-                                        }, set: { value in
-                                            if value {
-                                                selectedTabId = item.id
-                                            }
-                                        })) {
-                                            Label {
-                                                TimelineTabTitle(title: item.title)
-                                            } icon: {
-                                                TabIcon(tabItem: item)
-                                                    .frame(width: 24)
-                                                    .scaledToFit()
-                                            }
-                                            .labelStyle(.titleAndIcon)
-                                        }
-                                    }
-                                    Divider()
-                                    Button {
-                                        toTabSetting()
-                                    } label: {
-                                        Label {
-                                            Text("tab_settings_add_tab")
-                                        } icon: {
-                                            Image(fontAwesome: .plus)
-                                        }
-                                    }
-                                }
-                            } else {
-                                ToolbarItem(placement: .automatic) {
-                                    ScrollView(.horizontal) {
-                                        HStack {
-                                            ForEach(tabs, id: \.id) { item in
-                                                Button {
-                                                    selectedTabId = item.id
-                                                } label: {
-                                                    Label {
-                                                        TimelineTabTitle(title: item.title)
-                                                    } icon: {
-                                                        TabIcon(tabItem: item)
-                                                            .frame(width: 24)
-                                                            .scaledToFit()
-                                                    }
-                                                    .labelStyle(.titleAndIcon)
-                                                }
-                                                .safeAreaInset(edge: .bottom, spacing: 3) {
-                                                    if tab.id == item.id {
-                                                        Capsule()
-                                                            .fill(Color.accentColor)
-                                                            .frame(width: 18, height: 3)
-                                                            .matchedGeometryEffect(id: "selectedTabIndicator", in: selectedTabIndicatorNamespace)
-                                                    } else {
-                                                        Capsule()
-                                                            .frame(width: 0, height: 3)
-                                                    }
-                                                }
-                                            }
-                                        }
-                                        .padding(.horizontal)
-                                        .animation(.spring(response: 0.25, dampingFraction: 0.85), value: selectedTabId)
-                                    }
-                                }
-                                ToolbarItem(placement: .primaryAction) {
-                                    Button {
-                                        toTabSetting()
-                                    } label: {
-                                        Image(fontAwesome: .sliders)
-                                    }
+                                .labelStyle(.titleAndIcon)
+                                .id(tab.id)
+                            }
+                            ToolbarItem(placement: .primaryAction) {
+                                Button {
+                                    toTabSetting()
+                                } label: {
+                                    Image(fontAwesome: .sliders)
                                 }
                             }
                             ToolbarItem(placement: .primaryAction) {

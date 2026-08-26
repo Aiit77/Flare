@@ -87,13 +87,7 @@ struct ComposeScreen: View {
                         .frame(minHeight: 120)
                         .focused($keyboardFocused)
                         .overlay(alignment: .topLeading) {
-                            if viewModel.text.isEmpty {
-                                Text("compose_placeholder")
-                                    .foregroundStyle(.tertiary)
-                                    .padding(.horizontal, 5)
-                                    .padding(.vertical, 8)
-                                    .allowsHitTesting(false)
-                            }
+                            composePlaceholder
                         }
                         .onAppear {
                             requestDefaultFocus()
@@ -274,6 +268,17 @@ struct ComposeScreen: View {
             }
         ) {
             composeMediaPicker
+        }
+    }
+
+    @ViewBuilder
+    private var composePlaceholder: some View {
+        if viewModel.text.isEmpty {
+            Text("compose_placeholder")
+                .foregroundColor(Color(.tertiaryLabel))
+                .padding(.horizontal, 5)
+                .padding(.vertical, 8)
+                .allowsHitTesting(false)
         }
     }
 

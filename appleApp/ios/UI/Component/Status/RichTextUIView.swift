@@ -66,7 +66,7 @@ final class RichTextUIView: UIView, TimelineHeightProviding {
     private var lastLayoutWidth: CGFloat = 0
     private var isBatchUpdating = false
     private var lastStructuralSignature: StructuralSignature?
-    private var traitRegistration: UITraitChangeRegistration?
+    private var traitRegistration: Any?
 
     private struct StructuralSignature: Equatable {
         let contentKey: Int?
@@ -125,13 +125,15 @@ final class RichTextUIView: UIView, TimelineHeightProviding {
         setContentHuggingPriority(.required, for: .vertical)
         setContentCompressionResistancePriority(.required, for: .vertical)
         updateHorizontalLayoutPolicy()
-        traitRegistration = registerForTraitChanges([
-            UITraitUserInterfaceStyle.self,
-            UITraitPreferredContentSizeCategory.self,
-            UITraitLegibilityWeight.self,
-            UITraitAccessibilityContrast.self,
-        ]) { (view: RichTextUIView, _) in
-            view.update(force: true)
+        if #available(iOS 17.0, *) {
+            traitRegistration = registerForTraitChanges([
+                UITraitUserInterfaceStyle.self,
+                UITraitPreferredContentSizeCategory.self,
+                UITraitLegibilityWeight.self,
+                UITraitAccessibilityContrast.self,
+            ]) { (view: RichTextUIView, _) in
+                view.update(force: true)
+            }
         }
     }
 
@@ -1323,6 +1325,7 @@ private final class RichTextTextView: UITextView, UITextViewDelegate, RichTextTe
         return lineHeight
     }
 
+    @available(iOS 17.0, *)
     func textView(_ textView: UITextView, primaryActionFor textItem: UITextItem, defaultAction: UIAction) -> UIAction? {
         guard case .link(let url) = textItem.content else { return defaultAction }
         
@@ -1331,6 +1334,7 @@ private final class RichTextTextView: UITextView, UITextViewDelegate, RichTextTe
         }
     }
     
+    @available(iOS 17.0, *)
     func textView(_ textView: UITextView, menuConfigurationFor textItem: UITextItem, defaultMenu: UIMenu) -> UITextItem.MenuConfiguration? {
         guard case .link(let url) = textItem.content else {
             return UITextItem.MenuConfiguration(

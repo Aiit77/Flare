@@ -164,26 +164,44 @@ struct MediaViewerScreen<SupplementaryOverlay: View>: View {
                     Image(fontAwesome: .xmark)
                 }
             }
-            if !medias.isEmpty {
-                ToolbarItem(placement: .primaryAction) {
-                    Button {
-                        withAnimation(.easeInOut(duration: 0.2)) {
-                            isLandscapeViewing.toggle()
+            ToolbarItem(placement: .primaryAction) {
+                Group {
+                    if !medias.isEmpty {
+                        Button {
+                            withAnimation(.easeInOut(duration: 0.2)) {
+                                isLandscapeViewing.toggle()
+                            }
+                        } label: {
+                            Image(systemName: isLandscapeViewing ? "arrow.down.right.and.arrow.up.left" : "arrow.up.left.and.arrow.down.right")
                         }
-                    } label: {
-                        Image(systemName: isLandscapeViewing ? "arrow.down.right.and.arrow.up.left" : "arrow.up.left.and.arrow.down.right")
+                        .accessibilityLabel(Text(verbatim: isLandscapeViewing ? "Exit landscape view" : "Landscape view"))
+                    } else {
+                        EmptyView()
                     }
-                    .accessibilityLabel(Text(verbatim: isLandscapeViewing ? "Exit landscape view" : "Landscape view"))
                 }
-                if let selectedMedia, case .image = onEnum(of: selectedMedia) {
-                    ToolbarItem(placement: .primaryAction) {
+            }
+            ToolbarItem(placement: .primaryAction) {
+                Group {
+                    if let selectedMedia, case .image = onEnum(of: selectedMedia) {
                         Button {
                             saveMedia(selectedMedia)
                         } label: {
                             Image(fontAwesome: .download)
                         }
+                    } else if let selectedMedia, case .video = onEnum(of: selectedMedia) {
+                        Button {
+                            saveMedia(selectedMedia)
+                        } label: {
+                            Image(fontAwesome: .download)
+                        }
+                    } else {
+                        EmptyView()
                     }
-                    ToolbarItem(placement: .primaryAction) {
+                }
+            }
+            ToolbarItem(placement: .primaryAction) {
+                Group {
+                    if let selectedMedia, case .image = onEnum(of: selectedMedia) {
                         Button {
                             shareSelectedImage(selectedMedia)
                         } label: {
@@ -191,14 +209,8 @@ struct MediaViewerScreen<SupplementaryOverlay: View>: View {
                         }
                         .disabled(isPreparingShare)
                         .accessibilityLabel("Share image")
-                    }
-                } else if let selectedMedia, case .video = onEnum(of: selectedMedia) {
-                    ToolbarItem(placement: .primaryAction) {
-                        Button {
-                            saveMedia(selectedMedia)
-                        } label: {
-                            Image(fontAwesome: .download)
-                        }
+                    } else {
+                        EmptyView()
                     }
                 }
             }

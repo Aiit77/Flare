@@ -5,7 +5,8 @@ import FlareAppleCore
 struct AppLogScreen: View {
     @StateObject private var presenter = KotlinPresenter(presenter: DevModePresenter())
     @State private var selectedMessage: String? = nil
-    @State private var exportedLogContent: String? = nil
+    @State private var exportedLogContent = ""
+    @State private var showingExportedLog = false
     var body: some View {
         List {
             Section {
@@ -36,24 +37,31 @@ struct AppLogScreen: View {
             ToolbarItem {
                 Button {
                     exportedLogContent = presenter.state.printMessageToString()
+                    showingExportedLog = true
                 } label: {
                     Image(fontAwesome: .floppyDisk)
                 }
             }
         }
-        .fileExporter(
-            isPresented: Binding(
-                get: { exportedLogContent != nil },
-                set: { newValue in
-                    if !newValue {
-                        exportedLogContent = nil
+        .sheet(isPresented: $showingExportedLog) {
+            NavigationView {
+                ScrollView {
+                    Text(exportedLogContent)
+                        .textSelection(.enabled)
+                        .padding()
+                        .frame(maxWidth: .infinity, alignment: .leading)
+                }
+                .navigationTitle("flare_log.txt")
+                .toolbar {
+                    ToolbarItem(placement: .cancellationAction) {
+                        Button {
+                            showingExportedLog = false
+                        } label: {
+                            Image(fontAwesome: .xmark)
+                        }
                     }
                 }
-            ),
-            document: TextDocument(text: exportedLogContent ?? ""),
-            defaultFilename: "flare_log.txt"
-        ) { result in
-            exportedLogContent = nil
+            }
         }
         .navigationTitle("app_log")
         .sheet(item: $selectedMessage) { message in

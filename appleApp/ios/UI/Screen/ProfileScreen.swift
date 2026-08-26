@@ -32,52 +32,68 @@ struct ProfileScreen: View {
             }
         }
         .background(Color(timelineDisplayMode == .plain && horizontalSizeClass == .compact ? .clear : .systemGroupedBackground))
-        .toolbarBackground(
-            horizontalSizeClass == .compact && isProfileHeaderVisible ? Visibility.hidden : Visibility.automatic,
-            for: .navigationBar
-        )
         .onChange(of: isBlockedProfile) { isBlocked in
             if !isBlocked {
                 showBlockedProfileContent = false
             }
         }
         .toolbar {
-            if horizontalSizeClass == .compact && showToolbarTabPicker && !shouldGateBlockedProfile, case .success(let userState) = onEnum(of: presenter.state.userState) {
-                ToolbarItem(placement: .principal) {
-                    RichText(text: userState.data.name)
+            ToolbarItem(placement: .principal) {
+                Group {
+                    if horizontalSizeClass == .compact,
+                       showToolbarTabPicker,
+                       !shouldGateBlockedProfile,
+                       case .success(let userState) = onEnum(of: presenter.state.userState) {
+                        RichText(text: userState.data.name)
+                    } else {
+                        EmptyView()
+                    }
                 }
             }
-            
-            if !shouldGateBlockedProfile && horizontalSizeClass == .regular, case .success(let tabState) = onEnum(of: presenter.state.tabs) {
-                let tabs = tabState.data.cast(ProfileState.Tab.self)
-                if tabs.count > 1 {
-                    ToolbarItemGroup {
-                        ForEach(0..<tabs.count, id: \.self) { index in
-                            let tab = tabs[index]
-                            Button {
-                                withAnimation(.spring) {
-                                    selectedTab = index
+
+            ToolbarItem(placement: .primaryAction) {
+                Group {
+                    if !shouldGateBlockedProfile,
+                       horizontalSizeClass == .regular,
+                       case .success(let tabState) = onEnum(of: presenter.state.tabs) {
+                        let tabs = tabState.data.cast(ProfileState.Tab.self)
+                        if tabs.count > 1 {
+                            HStack(spacing: 8) {
+                                ForEach(0..<tabs.count, id: \.self) { index in
+                                    let tab = tabs[index]
+                                    Button {
+                                        withAnimation(.spring) {
+                                            selectedTab = index
+                                        }
+                                    } label: {
+                                        Text(profileTabTitle(for: tab))
+                                            .foregroundColor(selectedTab == index ? Color.accentColor : .primary)
+                                            .fontWeight(selectedTab == index ? .bold : .regular)
+                                    }
                                 }
-                            } label: {
-                                Text(profileTabTitle(for: tab))
-                                    .foregroundStyle(selectedTab == index ? Color.accentColor : .primary)
-                                    .fontWeight(selectedTab == index ? .bold : .regular)
                             }
+                        } else {
+                            EmptyView()
                         }
-                    }
-                }
-            } else if !shouldGateBlockedProfile && horizontalSizeClass == .compact, case .success(let tabState) = onEnum(of: presenter.state.tabs) {
-                let tabs = tabState.data.cast(ProfileState.Tab.self)
-                if tabs.count > 1 && showToolbarTabPicker {
-                    ToolbarItem(placement: .primaryAction) {
-                        profileTabPicker(tabs: tabs)
-                            .pickerStyle(.menu)
-                            .fixedSize()
+                    } else if !shouldGateBlockedProfile,
+                              horizontalSizeClass == .compact,
+                              case .success(let tabState) = onEnum(of: presenter.state.tabs) {
+                        let tabs = tabState.data.cast(ProfileState.Tab.self)
+                        if tabs.count > 1 && showToolbarTabPicker {
+                            profileTabPicker(tabs: tabs)
+                                .pickerStyle(.menu)
+                                .fixedSize()
+                        } else {
+                            EmptyView()
+                        }
+                    } else {
+                        EmptyView()
                     }
                 }
             }
-            if agentEnabled || !presenter.state.actions.isEmpty {
-                ToolbarItemGroup(placement: .primaryAction) {
+
+            ToolbarItem(placement: .primaryAction) {
+                HStack(spacing: 8) {
                     if agentEnabled, case .success(let userState) = onEnum(of: presenter.state.userState) {
                         Button {
                             onProfileInsight(userState.data.key)
