@@ -45,7 +45,9 @@ kotlin {
             // linking, while this optimization does not affect functional behavior.
             appleTarget.compilations.configureEach {
                 compilerOptions.configure {
-                    freeCompilerArgs.add("-Xdisable-phases=DevirtualizationAnalysis")
+                    freeCompilerArgs.add(
+                        "-Xdisable-phases=DevirtualizationAnalysis,RemoveRedundantCallsToStaticInitializersPhase,DCEPhase"
+                    )
                 }
             }
 
