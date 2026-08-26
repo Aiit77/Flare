@@ -19,9 +19,11 @@ jobs:
     # iOS-Backports 1.0.5 declares Swift tools 6.2; use the source project's
     # macOS 26 image so the resolver has a compatible Swift/Xcode toolchain.
     runs-on: macos-26
-    timeout-minutes: 90
+    # Kotlin/Native 需要首次下载并编译多个跨平台模块；首次冷构建可能显著更慢。
+    timeout-minutes: 180
     env:
       IPA_NAME: Flare-1.7.4-ios15-unsigned.ipa
+      GRADLE_JVM_ARGS: -Xmx6g -Dfile.encoding=UTF-8
     steps:
       - name: Check out source
         uses: actions/checkout@v4
