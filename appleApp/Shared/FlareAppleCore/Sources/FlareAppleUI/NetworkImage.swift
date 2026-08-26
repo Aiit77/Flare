@@ -52,7 +52,7 @@ public struct NetworkImage: View {
                         NetworkImage(data: placeholder, customHeader: customHeader)
                     } else {
                         Rectangle()
-                            .fill(.placeholder)
+                            .fill(Color.gray.opacity(0.25))
                             .redacted(reason: .placeholder)
                     }
                 }
@@ -97,7 +97,7 @@ public struct NetworkImage: View {
                         )
                     } else {
                         Rectangle()
-                            .fill(.placeholder)
+                            .fill(Color.gray.opacity(0.25))
                             .redacted(reason: .placeholder)
                     }
                 }
@@ -190,7 +190,7 @@ private struct CrossfadeNetworkImage: View {
             )
         } else {
             Rectangle()
-                .fill(.placeholder)
+                .fill(Color.gray.opacity(0.25))
                 .redacted(reason: .placeholder)
         }
     }

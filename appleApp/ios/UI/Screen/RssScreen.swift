@@ -13,7 +13,7 @@ struct RssScreen: View {
     var body: some View {
         List {
             ForEach(presenter.state.sources, id: \.id) { item in
-                NavigationLink(value: Route.timeline(
+                FlareNavigationLink(value: Route.timeline(
                     presenter.state.timelineTabItem(item: item)
                 )) {
                     HStack {

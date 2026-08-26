@@ -142,7 +142,7 @@ struct StatusMediaView: View {
                                         index == autoplayCarouselIndex
                                 )
                                 .frame(width: itemSize.width, height: itemSize.height)
-                                .clipShape(.rect(cornerRadius: cornerRadius))
+                                .clipShape(RoundedRectangle(cornerRadius: cornerRadius))
                                 .id(index)
                             }
                         }
@@ -253,35 +253,35 @@ struct StatusMediaView: View {
     }
 }
 
-private struct TimelineCarouselFrameLayout: Layout {
+private struct TimelineCarouselFrameLayout<Content: View>: View {
     let widthMultiplier: CGFloat
     let spacingMultiplier: CGFloat
     let horizontalInsets: CGFloat
     let itemSpacing: CGFloat
+    private let content: Content
 
-    func sizeThatFits(
-        proposal: ProposedViewSize,
-        subviews: Subviews,
-        cache: inout ()
-    ) -> CGSize {
-        let width = max(0, proposal.width ?? 320)
-        let contentWidth = max(0, width - horizontalInsets)
-        let height = max(0, contentWidth * widthMultiplier + itemSpacing * spacingMultiplier)
-        return CGSize(width: width, height: height)
+    init(
+        widthMultiplier: CGFloat,
+        spacingMultiplier: CGFloat,
+        horizontalInsets: CGFloat,
+        itemSpacing: CGFloat,
+        @ViewBuilder content: () -> Content
+    ) {
+        self.widthMultiplier = widthMultiplier
+        self.spacingMultiplier = spacingMultiplier
+        self.horizontalInsets = horizontalInsets
+        self.itemSpacing = itemSpacing
+        self.content = content()
     }
 
-    func placeSubviews(
-        in bounds: CGRect,
-        proposal: ProposedViewSize,
-        subviews: Subviews,
-        cache: inout ()
-    ) {
-        guard let subview = subviews.first else { return }
-        subview.place(
-            at: bounds.origin,
-            anchor: .topLeading,
-            proposal: ProposedViewSize(width: bounds.width, height: bounds.height)
-        )
+    var body: some View {
+        GeometryReader { geometry in
+            let contentWidth = max(0, geometry.size.width - horizontalInsets)
+            let height = max(0, contentWidth * widthMultiplier + itemSpacing * spacingMultiplier)
+            content
+                .frame(width: geometry.size.width, height: height, alignment: .topLeading)
+        }
+        .frame(height: 280)
     }
 }
 

@@ -97,20 +97,12 @@ public struct SearchScreen: View {
             #endif
             accountToolbarItem
         }
-        .searchable(text: $searchText, isPresented: $isSearchPresented)
-        .searchSuggestions {
-            SearchHistorySuggestions(
-                state: searchHistoryPresenter.state,
-                searchText: searchText,
-                onSelect: commitSearch,
-                onDelete: searchHistoryPresenter.state.deleteSearchHistory
-            )
-        }
+        .searchable(text: $searchText)
         .onSubmit(of: .search) {
             commitSearch(searchText)
         }
         .detectScrolling()
-        .onChange(of: searchText) {
+        .onChange(of: searchText) { _ in
             if isSearchPresented && searchText.isEmpty {
                 committedSearchText = ""
                 searchPresenter.state.search(query: "")
@@ -150,49 +142,8 @@ public struct SearchScreen: View {
     #if os(iOS)
     @ToolbarContentBuilder
     private var accountToolbarItem: some ToolbarContent {
-        if case .success(let data) = onEnum(of: searchPresenter.state.accounts) {
-            let accounts = data.data
-            if accounts.count > 1 {
-                ToolbarItem(placement: .primaryAction) {
-                    Menu {
-                        ForEach(0..<accounts.count, id: \.self) { index in
-                            let account = accounts[index] as! UiProfile
-                            Toggle(isOn: Binding(get: {
-                                searchPresenter.state.selectedAccount?.key == account.key
-                            }, set: { value in
-                                if value {
-                                    searchPresenter.state.setAccount(profile: account)
-                                }
-                            })) {
-                                Label {
-                                    Text(account.handle.canonical)
-                                } icon: {
-                                    AvatarView(data: account.avatar?.url, customHeader: account.avatar?.customHeaders)
-                                }
-                            }
-                        }
-                    } label: {
-                        if let selectedAccount = searchPresenter.state.selectedAccount {
-                            HStack {
-                                AvatarView(data: selectedAccount.avatar?.url, customHeader: selectedAccount.avatar?.customHeaders)
-                                    .frame(width: 24, height: 24)
-                                Text(selectedAccount.handle.canonical)
-                                Image(fontAwesome: .chevronDown)
-                                    .font(.footnote)
-                                    .foregroundStyle(.secondary)
-                                    .scaledToFit()
-                                    .frame(width: 8, height: 8)
-                                    .padding(8)
-                                    .background(
-                                        Circle()
-                                            .fill(Color.secondary.opacity(0.2))
-                                    )
-                                    .scaleEffect(0.66)
-                            }
-                        }
-                    }
-                }
-            }
+        ToolbarItem(placement: .primaryAction) {
+            EmptyView()
         }
     }
     #endif

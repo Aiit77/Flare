@@ -246,7 +246,7 @@ private struct LocalFilterEditSheet: View {
                 Text("local_filter_scope_header", bundle: FlareAppleUILocalization.bundle)
             }
         }
-        .formStyle(.grouped)
+
         .navigationTitle(Text("local_filter_edit_title", bundle: FlareAppleUILocalization.bundle))
         .toolbar {
             ToolbarItem(placement: .cancellationAction) {

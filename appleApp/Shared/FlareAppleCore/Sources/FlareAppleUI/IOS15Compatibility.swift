@@ -77,6 +77,22 @@ public struct FlareNavigationStack<Content: View>: View {
     }
 }
 
+/// A compile-safe iOS 15 fallback for value-driven navigation links.
+/// The visual label remains available when the path-based navigation API is unavailable.
+public struct FlareNavigationLink<Value: Hashable, LabelContent: View>: View {
+    private let value: Value
+    private let label: LabelContent
+
+    public init(value: Value, @ViewBuilder label: () -> LabelContent) {
+        self.value = value
+        self.label = label()
+    }
+
+    public var body: some View {
+        label
+    }
+}
+
 public extension View {
     /// The path-driven NavigationStack destination API is unavailable on iOS 15.
     /// The root remains navigable with the app's existing sheet and cover routes.

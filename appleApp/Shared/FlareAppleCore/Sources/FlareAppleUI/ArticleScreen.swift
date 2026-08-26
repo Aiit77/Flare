@@ -628,26 +628,26 @@ private struct ArticleLoadingView: View {
             LazyVStack {
                 LazyVStack(alignment: .leading, spacing: 16) {
                     Rectangle()
-                        .fill(.placeholder)
+                        .fill(Color.gray.opacity(0.25))
                         .frame(height: 32)
                         .clipShape(.rect(cornerRadius: 8))
                     HStack(spacing: 12) {
                         Circle()
-                            .fill(.placeholder)
+                            .fill(Color.gray.opacity(0.25))
                             .frame(width: 44, height: 44)
                         VStack(alignment: .leading, spacing: 8) {
                             Rectangle()
-                                .fill(.placeholder)
+                                .fill(Color.gray.opacity(0.25))
                                 .frame(width: 160, height: 14)
                             Rectangle()
-                                .fill(.placeholder)
+                                .fill(Color.gray.opacity(0.25))
                                 .frame(width: 96, height: 12)
                         }
                     }
                     Divider()
                     ForEach(0..<6, id: \.self) { index in
                         Rectangle()
-                            .fill(.placeholder)
+                            .fill(Color.gray.opacity(0.25))
                             .frame(height: index == 5 ? 80 : 16)
                             .clipShape(.rect(cornerRadius: 8))
                     }

@@ -9,7 +9,7 @@ struct AgentChatHistoryScreen: View {
 
     var body: some View {
         AgentChatHistoryList(rooms: rooms) { room in
-            NavigationLink(value: Route.agentChat(room.id, nil)) {
+            FlareNavigationLink(value: Route.agentChat(room.id, nil)) {
                 AgentChatHistoryRow(room: room)
             }
             .swipeActions(edge: .trailing) {
@@ -22,7 +22,7 @@ struct AgentChatHistoryScreen: View {
         .navigationTitle("agent_history_title")
         .toolbar {
             ToolbarItem(placement: .primaryAction) {
-                NavigationLink(value: Route.agentChat(Route.newGenericChatConversationId(), nil)) {
+                FlareNavigationLink(value: Route.agentChat(Route.newGenericChatConversationId(), nil)) {
                     Image(fontAwesome: .plus)
                 }
                 .accessibilityLabel(Text("agent_chat_title"))

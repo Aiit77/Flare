@@ -77,7 +77,6 @@ public struct VideoControlView: View {
                     Image(fontAwesome: isPlaying ? .pause : .play)
                         .font(.title2)
                         .frame(height: 24)
-                        .contentTransition(.symbolEffect(.replace))
                 }
                 .contentShape(Rectangle())
                 .buttonStyle(.plain)

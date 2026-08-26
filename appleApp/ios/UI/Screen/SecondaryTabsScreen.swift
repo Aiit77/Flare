@@ -64,21 +64,21 @@ struct SecondaryTabsScreen: View {
             }
 
             Section {
-                NavigationLink(value: Route.draftBox) {
+                FlareNavigationLink(value: Route.draftBox) {
                     Label {
                         Text("Drafts")
                     } icon: {
                         Image(fontAwesome: .penToSquare)
                     }
                 }
-                NavigationLink(value: Route.rssManagement) {
+                FlareNavigationLink(value: Route.rssManagement) {
                     Label {
                         Text("settings_rss_management_title")
                     } icon: {
                         Image(fontAwesome: .squareRss)
                     }
                 }
-                NavigationLink(value: Route.localHostory) {
+                FlareNavigationLink(value: Route.localHostory) {
                     Label {
                         Text("local_history_title")
                     } icon: {
@@ -86,7 +86,7 @@ struct SecondaryTabsScreen: View {
                     }
                 }
                 if aiAgentEnabledPresenter.state.enabled {
-                    NavigationLink(value: Route.agentHistory) {
+                    FlareNavigationLink(value: Route.agentHistory) {
                         Label {
                             Text("agent_history_title")
                         } icon: {
@@ -94,7 +94,7 @@ struct SecondaryTabsScreen: View {
                         }
                     }
                 }
-                NavigationLink(value: Route.settings) {
+                FlareNavigationLink(value: Route.settings) {
                     Label {
                         Text("settings_title")
                     } icon: {

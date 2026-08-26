@@ -102,7 +102,7 @@ struct StorageScreen: View {
                     }
                 }
                 
-                NavigationLink(value: Route.appLog) {
+                FlareNavigationLink(value: Route.appLog) {
                     Label {
                         Text("app_log")
                     } icon: {

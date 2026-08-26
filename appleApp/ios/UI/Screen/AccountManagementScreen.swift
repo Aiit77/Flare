@@ -72,7 +72,7 @@ struct AccountManagementScreen: View {
         .navigationTitle("account_management_title")
         .toolbar {
             ToolbarItem(placement: .topBarTrailing) {
-                NavigationLink(value: Route.serviceSelect) {
+                FlareNavigationLink(value: Route.serviceSelect) {
                     Label {
                         Text("login_title")
                     } icon: {
@@ -100,7 +100,7 @@ struct AccountManagementScreen: View {
     @ViewBuilder
     private func accountActionButtons(for account: UiAccount, accountName: String?) -> some View {
         if account.supportsRelayManagement {
-            NavigationLink(value: Route.nostrRelays(account.accountKey)) {
+            FlareNavigationLink(value: Route.nostrRelays(account.accountKey)) {
                 Label {
                     Text("Manage relays")
                 } icon: {

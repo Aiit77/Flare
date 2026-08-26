@@ -63,7 +63,7 @@ public struct UserLoadingView: View {
     public var body: some View {
         HStack(spacing: 8) {
             Rectangle()
-                .fill(.placeholder)
+                .fill(Color.gray.opacity(0.25))
                 .frame(width: 44, height: 44)
                 .clipShape(.circle)
             VStack(

@@ -17,11 +17,10 @@ struct AltTextEditSheet: View {
                         .clipShape(RoundedRectangle(cornerRadius: 8))
                 }
                 
-                TextField("Description", text: $item.altText, axis: .vertical)
+                TextField("Description", text: $item.altText)
                     .textFieldStyle(.roundedBorder)
                     .textInputAutocapitalization(.sentences)
                     .keyboardType(.twitter)
-                    .lineLimit(3...10)
                     .padding()
                     .onChange(of: item.altText) { newValue in
                         if newValue.count > maxLength {

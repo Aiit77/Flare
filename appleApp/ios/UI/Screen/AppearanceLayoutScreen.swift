@@ -5,7 +5,7 @@ struct AppearanceLayoutScreen: View {
     var body: some View {
         List {
             AppearanceLayoutSettingsSection {
-                NavigationLink(value: Route.postActionLayout) {
+                FlareNavigationLink(value: Route.postActionLayout) {
                     VStack(alignment: .leading) {
                         Label {
                             Text("Customize actions")

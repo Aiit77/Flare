@@ -20,7 +20,7 @@ public struct ChannelListScreen<Destination: Hashable>: View {
     public var body: some View {
         List {
             PagingView(data: presenter.state.data) { item in
-                 NavigationLink(value: timelineDestination(presenter.state.timelineTabItem(item: item))) {
+                 FlareNavigationLink(value: timelineDestination(presenter.state.timelineTabItem(item: item))) {
                      UiListView(data: item)
                          .contextMenu {
                              if case .channel(let data) = onEnum(of: item) {

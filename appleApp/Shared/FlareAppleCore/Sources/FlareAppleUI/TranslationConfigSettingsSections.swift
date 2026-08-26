@@ -94,8 +94,7 @@ private final class TranslationConfigSettingsState: ObservableObject {
 
     var languageOptions: [TranslationLanguageOption] {
         let current = Locale.current
-        let baseOptions = Locale.LanguageCode.isoLanguageCodes.map { code in
-            let tag = code.identifier
+        let baseOptions = Locale.isoLanguageCodes.map { tag in
             return TranslationLanguageOption(
                 tag: tag,
                 title: current.localizedString(forLanguageCode: tag) ?? tag
@@ -336,7 +335,7 @@ private struct TranslationConfigEditSheet: View {
                         .frame(minHeight: 180)
                 }
             }
-            .formStyle(.grouped)
+
             .navigationTitle(Text(field.titleKey, bundle: FlareAppleUILocalization.bundle))
             .toolbar {
                 ToolbarItem(placement: .cancellationAction) {

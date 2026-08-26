@@ -332,7 +332,7 @@ private struct AiConfigEditSheet: View {
                     }
                 }
             }
-            .formStyle(.grouped)
+
             .navigationTitle(Text(field.titleKey, bundle: FlareAppleUILocalization.bundle))
             .toolbar {
                 ToolbarItem(placement: .cancellationAction) {

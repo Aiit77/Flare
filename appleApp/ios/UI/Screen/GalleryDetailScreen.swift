@@ -227,7 +227,7 @@ private struct GalleryImagesView: View {
     var body: some View {
         if images.isEmpty {
             Rectangle()
-                .fill(.placeholder)
+                .fill(Color.gray.opacity(0.25))
                 .frame(height: 320)
                 .redacted(reason: .placeholder)
         } else if detail.orientation == .horizontal {
@@ -275,7 +275,7 @@ private struct GalleryBigScreenImagePane: View {
             Color(.systemBackground)
             if images.isEmpty {
                 Rectangle()
-                    .fill(.placeholder)
+                    .fill(Color.gray.opacity(0.25))
                     .frame(height: 320)
                     .redacted(reason: .placeholder)
             } else if detail.orientation == .horizontal {
@@ -364,7 +364,7 @@ private struct GalleryAuthorCard: View {
                         }
                 } else {
                     Circle()
-                        .fill(.placeholder)
+                        .fill(Color.gray.opacity(0.25))
                         .frame(width: 44, height: 44)
                 }
 
@@ -672,14 +672,14 @@ private struct GalleryCompactToolbarTitleLoading: View {
     var body: some View {
         HStack(spacing: 10) {
             Circle()
-                .fill(.placeholder)
+                .fill(Color.gray.opacity(0.25))
                 .frame(width: 32, height: 32)
             VStack(alignment: .leading, spacing: 1) {
                 RoundedRectangle(cornerRadius: 3)
-                    .fill(.placeholder)
+                    .fill(Color.gray.opacity(0.25))
                     .frame(width: 140, height: 14)
                 RoundedRectangle(cornerRadius: 3)
-                    .fill(.placeholder)
+                    .fill(Color.gray.opacity(0.25))
                     .frame(width: 84, height: 10)
             }
             .frame(maxWidth: 220, alignment: .leading)
@@ -709,10 +709,10 @@ private struct GalleryDetailLoadingView: View {
     var body: some View {
         VStack(spacing: 12) {
             RoundedRectangle(cornerRadius: 16)
-                .fill(.placeholder)
+                .fill(Color.gray.opacity(0.25))
                 .frame(height: 420)
             RoundedRectangle(cornerRadius: 16)
-                .fill(.placeholder)
+                .fill(Color.gray.opacity(0.25))
                 .frame(height: 72)
         }
         .padding(16)

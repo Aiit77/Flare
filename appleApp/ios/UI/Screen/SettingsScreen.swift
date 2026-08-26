@@ -6,7 +6,7 @@ import FlareAppleCore
 struct SettingsScreen: View {
     var body: some View {
         List {
-            NavigationLink(value: Route.accountManagement) {
+            FlareNavigationLink(value: Route.accountManagement) {
                 Label {
                     Text("account_management_title")
                     Text("account_management_description")
@@ -16,7 +16,7 @@ struct SettingsScreen: View {
             }
 
             Section {
-                NavigationLink(value: Route.appearanceTheme) {
+                FlareNavigationLink(value: Route.appearanceTheme) {
                     Label {
                         Text("appearance_theme")
                         Text("appearance_theme_group_subtitle")
@@ -24,7 +24,7 @@ struct SettingsScreen: View {
                         Image(fontAwesome: .palette)
                     }
                 }
-                NavigationLink(value: Route.appearanceLayout) {
+                FlareNavigationLink(value: Route.appearanceLayout) {
                     Label {
                         Text("appearance_layout_group_title")
                         Text("appearance_layout_group_subtitle")
@@ -32,7 +32,7 @@ struct SettingsScreen: View {
                         Image(fontAwesome: .tableList)
                     }
                 }
-                NavigationLink(value: Route.appearanceDisplay) {
+                FlareNavigationLink(value: Route.appearanceDisplay) {
                     Label {
                         Text("appearance_display_group_title")
                         Text("appearance_display_group_subtitle")
@@ -40,7 +40,7 @@ struct SettingsScreen: View {
                         Image(fontAwesome: .newspaper)
                     }
                 }
-                NavigationLink(value: Route.appearanceMedia) {
+                FlareNavigationLink(value: Route.appearanceMedia) {
                     Label {
                         Text("appearance_media_group_title")
                         Text("appearance_media_group_subtitle")
@@ -48,7 +48,7 @@ struct SettingsScreen: View {
                         Image(fontAwesome: .photoFilm)
                     }
                 }
-                NavigationLink(value: Route.appIconSettings) {
+                FlareNavigationLink(value: Route.appIconSettings) {
                     Label {
                         Text("App Icon")
                         Text("Choose the icon shown on your Home Screen")
@@ -70,7 +70,7 @@ struct SettingsScreen: View {
                 }
                 
 //                StateView(state: presenter.state.user) { _ in
-//                    NavigationLink(value: Route.moreMenuCustomize) {
+//                    FlareNavigationLink(value: Route.moreMenuCustomize) {
 //                        Label {
 //                            Text("more_panel_customize")
 //                        } icon: {
@@ -81,7 +81,7 @@ struct SettingsScreen: View {
             }
 
             Section {
-                NavigationLink(value: Route.behavior) {
+                FlareNavigationLink(value: Route.behavior) {
                     Label {
                         Text("settings_behavior_title")
                         Text("settings_behavior_description")
@@ -92,7 +92,7 @@ struct SettingsScreen: View {
             }
 
             Section {
-                NavigationLink(value: Route.localFilter) {
+                FlareNavigationLink(value: Route.localFilter) {
                     Label {
                         Text("local_filter_title")
                         Text("local_filter_description")
@@ -100,7 +100,7 @@ struct SettingsScreen: View {
                         Image(fontAwesome: .filter)
                     }
                 }
-                NavigationLink(value: Route.storage) {
+                FlareNavigationLink(value: Route.storage) {
                     Label {
                         Text("storage_title")
                         Text("storage_description")
@@ -111,7 +111,7 @@ struct SettingsScreen: View {
             }
 
             Section {
-                NavigationLink(value: Route.aiConfig) {
+                FlareNavigationLink(value: Route.aiConfig) {
                     Label {
                         Text("AI")
                         Text("ai_config_description")
@@ -120,7 +120,7 @@ struct SettingsScreen: View {
                     }
 
                 }
-                NavigationLink(value: Route.translationConfig) {
+                FlareNavigationLink(value: Route.translationConfig) {
                     Label {
                         Text("settings_translation_title")
                         Text("settings_translation_description")
@@ -131,7 +131,7 @@ struct SettingsScreen: View {
             }
 
             Section {
-                NavigationLink(value: Route.about) {
+                FlareNavigationLink(value: Route.about) {
                     Label {
                         Text("about_title")
                         Text("about_description")
@@ -149,7 +149,7 @@ struct BehaviorSettingsScreen: View {
     var body: some View {
         List {
             BehaviorSettingsSection {
-                NavigationLink(value: Route.linkOpenDefaults) {
+                FlareNavigationLink(value: Route.linkOpenDefaults) {
                     Label {
                         Text("settings_link_open_defaults_title")
                         Text("settings_link_open_defaults_description")
