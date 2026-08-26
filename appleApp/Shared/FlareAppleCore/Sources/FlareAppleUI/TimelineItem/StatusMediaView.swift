@@ -70,8 +70,7 @@ struct StatusMediaView: View {
                                 .foregroundStyle(.white)
                         }
                     }
-                    .backport
-                    .glassProminentButtonStyle()
+                    .buttonStyle(.borderedProminent)
                     .padding()
                 } else {
                     Button {
@@ -81,8 +80,7 @@ struct StatusMediaView: View {
                     } label: {
                         Image(fontAwesome: .eyeSlash)
                     }
-                    .backport
-                    .glassButtonStyle(fallbackStyle: .bordered)
+                    .buttonStyle(.bordered)
                     .padding()
                 }
             } else {
@@ -148,13 +146,13 @@ struct StatusMediaView: View {
                                 .id(index)
                             }
                         }
-                        .scrollTargetLayout()
+                        .flareScrollTargetLayout()
                         .frame(height: geometry.size.height)
                         .padding(.leading, carouselLeadingPadding)
                         .padding(.trailing, carouselTrailingPadding)
                     }
-                    .scrollIndicators(.hidden)
-                    .scrollPosition(id: $activeCarouselIndex, anchor: .center)
+                    .flareScrollIndicatorsHidden()
+                    .flareScrollPosition(id: $activeCarouselIndex, anchor: .center)
                     .onChange(of: activeCarouselIndex) { index in
                         if let index, index != autoplayCarouselIndex {
                             autoplayCarouselIndex = nil
@@ -371,8 +369,7 @@ struct AltTextOverlay: View {
             Text("ALT", bundle: FlareAppleUILocalization.bundle)
         }
         .padding()
-        .backport
-        .glassButtonStyle(fallbackStyle: .bordered)
+        .buttonStyle(.bordered)
         .popover(isPresented: $showAltText) {
             Text(altText)
                 .padding()

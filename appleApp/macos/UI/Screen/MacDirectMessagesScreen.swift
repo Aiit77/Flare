@@ -539,7 +539,7 @@ private struct MacDMConversationColumn: View {
             .padding(.vertical, 14)
             .frame(maxWidth: .infinity)
         }
-        .defaultScrollAnchor(.bottom)
+        .flareDefaultScrollAnchor(.bottom)
         .safeAreaInset(edge: .bottom, spacing: 0) {
             MacDMChatInputBar(
                 draft: $inputText,
@@ -594,15 +594,12 @@ private struct MacDMChatInputBar: View {
                         .frame(width: 24, height: 24)
                 }
                 .buttonBorderShape(.circle)
-                .backport
-                .glassButtonStyle()
+                .buttonStyle(.bordered)
                 .disabled(!canSend)
                 .help(Text("send_message"))
                 .accessibilityLabel(Text("send_message"))
                 .padding(.trailing, 8)
             }
-            .backport
-            .glassEffect()
             .padding(.horizontal)
             .padding(.bottom)
     }

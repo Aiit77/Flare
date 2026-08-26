@@ -204,9 +204,9 @@ struct MacMediaViewerScreen: View {
                         .id(index)
                     }
                 }
-                .scrollTargetLayout()
+                .flareScrollTargetLayout()
             }
-            .scrollIndicators(.hidden)
+            .flareScrollIndicatorsHidden()
             .scrollTargetBehavior(.paging)
             .scrollPosition(id: $scrollPosition)
             .scrollDisabled(selectedZoomScale > macMediaMinimumZoomScale + 0.01)

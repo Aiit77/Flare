@@ -669,7 +669,7 @@ public struct MacStatusShareSheet: View {
                 renderScreenshot(data: state)
             }
         } errorContent: { error in
-            ContentUnavailableView {
+            FlareContentUnavailableView {
                 Label("share_screenshot_failed", systemImage: "exclamationmark.triangle")
             } description: {
                 Text(error.message ?? String(localized: "share_screenshot_failed"))

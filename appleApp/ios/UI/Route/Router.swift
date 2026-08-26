@@ -29,11 +29,11 @@ struct Router<Root: View>: View {
     }
     
     var body: some View {
-        NavigationStack(path: $backStack) {
+        FlareNavigationStack {
             root({ route in
                 navigate(route: route)
             })
-            .navigationDestination(for: Route.self) { route in
+            .flareNavigationDestination(for: Route.self) { route in
                 route.view(
                     onNavigate: { route in navigate(route: route) },
                     goBack: { backStack.removeLast() }
@@ -43,19 +43,19 @@ struct Router<Root: View>: View {
         .environment(\.timelineMediaActionHandler, IOSTimelineMediaActions.handler)
         .sheet(item: $sheet) { route in
             if #available(iOS 18.0, *) {
-                NavigationStack {
+                FlareNavigationStack {
                     route.view(
                         onNavigate: { route in navigate(route: route) },
                         goBack: { backStack.removeLast() }
                     )
                 }
             } else {
-                NavigationStack {
+                FlareNavigationStack {
                     route.view(
                         onNavigate: { route in navigate(route: route) },
                         goBack: { backStack.removeLast() }
                     )
-                    .navigationDestination(for: Route.self) { destination in
+                    .flareNavigationDestination(for: Route.self) { destination in
                         destination.view(
                             onNavigate: { route in navigate(route: route) },
                             goBack: {}
@@ -65,7 +65,7 @@ struct Router<Root: View>: View {
             }
         }
         .fullScreenCover(item: $cover) { route in
-            NavigationStack {
+            FlareNavigationStack {
                 route.view(
                     onNavigate: { route in navigate(route: route) },
                     goBack: { backStack.removeLast() }

@@ -86,7 +86,7 @@ public struct AgentChatView: View {
                         }
                         .padding()
                     }
-                    .defaultScrollAnchor(.bottom)
+                    .flareDefaultScrollAnchor(.bottom)
                 }
             }
         }
@@ -133,7 +133,7 @@ public struct AgentChatView: View {
 
 private struct AgentChatEmptyPlaceholder: View {
     var body: some View {
-        ContentUnavailableView {
+        FlareContentUnavailableView {
             Label {
                 Text("agent_chat_empty_title", bundle: .main)
             } icon: {
@@ -157,7 +157,7 @@ private struct AgentChatMessagesSkeleton: View {
             }
             .padding()
         }
-        .defaultScrollAnchor(.bottom)
+        .flareDefaultScrollAnchor(.bottom)
     }
 }
 
@@ -206,15 +206,12 @@ private struct AgentChatInputBar: View {
                         .frame(width: 24, height: 24)
                 }
                 .buttonBorderShape(.circle)
-                .backport
-                .glassButtonStyle()
+                .buttonStyle(.bordered)
                 .disabled(!canSend)
                 .help(String(localized: "agent_chat_send", bundle: .main))
                 .accessibilityLabel(Text("agent_chat_send", bundle: .main))
                 .padding(.trailing, 8)
             }
-            .backport
-            .glassEffect()
             .padding(.horizontal)
             .padding(.bottom)
             .onChange(of: draft) { value in

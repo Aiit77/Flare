@@ -166,7 +166,7 @@ private struct LocalHistoryListStyle: ViewModifier {
         #if os(iOS)
         if selection == .status {
             content
-                .scrollContentBackground(.hidden)
+                .flareScrollContentBackgroundHidden()
                 .listRowSpacing(2)
                 .listStyle(.plain)
         } else {
@@ -175,7 +175,7 @@ private struct LocalHistoryListStyle: ViewModifier {
         #else
         if selection == .status {
             content
-                .scrollContentBackground(.hidden)
+                .flareScrollContentBackgroundHidden()
                 .listStyle(.plain)
         } else {
             content

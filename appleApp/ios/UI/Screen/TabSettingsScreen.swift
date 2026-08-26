@@ -140,7 +140,7 @@ struct TabSettingsScreen: View {
             }
         }
         .sheet(isPresented: $showAddTabSheet) {
-            NavigationStack {
+            FlareNavigationStack {
                 AddTabSheet(
                     selectedTabs: tabItems,
                     filterIsTimeline: true,
@@ -165,7 +165,7 @@ struct TabSettingsScreen: View {
                 editGroup = nil
             }
         })) {
-            NavigationStack {
+            FlareNavigationStack {
                 if let item = editGroup {
                     GroupConfigScreen(item: item) { updated in
                         upsertGroup(initialItem: item, updatedItem: updated)
@@ -174,7 +174,7 @@ struct TabSettingsScreen: View {
             }
         }
         .sheet(isPresented: $showCreateGroup) {
-            NavigationStack {
+            FlareNavigationStack {
                 GroupConfigScreen(item: nil) { updated in
                     upsertGroup(initialItem: nil, updatedItem: updated)
                 }
@@ -187,7 +187,7 @@ struct TabSettingsScreen: View {
                 editItem = nil
             }
         })) {
-            NavigationStack {
+            FlareNavigationStack {
                 if let item = editItem {
                     EditTabSheet(onConfirm: { updated in
                         if let index = tabItems.firstIndex(where: { $0.id == updated.id }) {
@@ -308,7 +308,7 @@ struct EditTabSheet: View {
             )
         }
         .sheet(isPresented: $showFilterSheet) {
-            NavigationStack {
+            FlareNavigationStack {
                 TimelineFilterSheet(
                     initialFilterConfig: filterConfig,
                     onCancel: {
@@ -438,14 +438,14 @@ struct AddTabSheet: View {
             }
         }
         .sheet(isPresented: $showAddRssSource) {
-            NavigationStack {
+            FlareNavigationStack {
                 EditRssSheet(id: nil, onImportOPML: { url in
                     importOpmlUrl = url
                 })
             }
         }
         .sheet(item: $importOpmlUrl) { url in
-            NavigationStack {
+            FlareNavigationStack {
                 ImportOPMLScreen(url: url)
             }
         }

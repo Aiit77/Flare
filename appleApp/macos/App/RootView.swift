@@ -434,10 +434,6 @@ private struct MacSidebarPinnedActions: View {
         }
         .frame(maxWidth: .infinity, minHeight: 34)
         .clipShape(actionGroupShape)
-        .backport
-        .glassEffect(.regularInteractive, in: actionGroupShape, fallbackBackground: .regularMaterial)
-        .backport
-        .glassEffectContainer(spacing: 0)
         .padding(.horizontal, 8)
         .padding(.top, 8)
         .padding(.bottom, 10)

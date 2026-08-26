@@ -121,7 +121,7 @@ struct GalleryDetailScreen: View {
             .padding(.bottom, 24)
         }
         .sheet(isPresented: $showInfoSheet) {
-            NavigationStack {
+            FlareNavigationStack {
                 ScrollView {
                     LazyVStack(spacing: 2) {
                         GalleryAfterImagesContent(

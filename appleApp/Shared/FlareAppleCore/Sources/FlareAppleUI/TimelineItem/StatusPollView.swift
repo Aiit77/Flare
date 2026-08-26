@@ -97,8 +97,7 @@ public struct StatusPollView: View {
                 } label: {
                     Text("poll_vote", bundle: FlareAppleUILocalization.bundle)
                 }
-                .backport
-                .glassProminentButtonStyle()
+                .buttonStyle(.borderedProminent)
             }
         }
     }

@@ -33,7 +33,7 @@ public struct DraftBoxContentView: View {
     public var body: some View {
         Group {
             if presenter.state.items.isEmpty {
-                ContentUnavailableView {
+                FlareContentUnavailableView {
                     Label {
                         Text("No Drafts", bundle: FlareAppleUILocalization.bundle)
                     } icon: {
@@ -141,7 +141,7 @@ private struct DraftBoxContentRow: View {
                             }
                         }
                     }
-                    .scrollIndicators(.hidden)
+                    .flareScrollIndicatorsHidden()
                 }
 
                 HStack(spacing: 8) {

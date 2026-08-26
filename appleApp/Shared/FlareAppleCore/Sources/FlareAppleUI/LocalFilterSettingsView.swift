@@ -35,7 +35,7 @@ public struct LocalFilterSettingsView: View {
                 selectedFilter = nil
             }
         ) {
-            NavigationStack {
+            FlareNavigationStack {
                 LocalFilterEditSheet(filter: selectedFilter) { keyword, forTimeline, forNotification, forSearch, isRegex in
                     presenter.state.add(
                         item: .init(

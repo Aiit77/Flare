@@ -68,7 +68,7 @@ public struct SearchScreen: View {
                             }
                         }
                     }
-                    .scrollIndicators(.hidden)
+                    .flareScrollIndicatorsHidden()
                 } header: {
                     Text("local_history_user", bundle: FlareAppleUILocalization.bundle)
                 }
@@ -83,7 +83,7 @@ public struct SearchScreen: View {
                 Text("local_history_status", bundle: FlareAppleUILocalization.bundle)
             }
         }
-        .scrollContentBackground(.hidden)
+        .flareScrollContentBackgroundHidden()
         .searchListRowSpacing(2)
         .listStyle(.plain)
         .refreshable {

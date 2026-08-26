@@ -298,7 +298,7 @@ private struct TimelinePresentationHeaderEditor: View {
             }
         }
         .sheet(isPresented: $showIconPicker) {
-            NavigationStack {
+            FlareNavigationStack {
                 IconPicker(
                     selectedIcon: icon,
                     availableIcons: availableIcons,

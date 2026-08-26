@@ -1,15 +1,15 @@
+import Combine
 import Foundation
 @preconcurrency import KotlinSharedUI
 import SwiftUI
 
-@Observable
-public final class ComposeContentViewModel {
-    public var text: String
-    public var contentWarning: String
-    public var enableContentWarning: Bool
-    public var showEmoji: Bool
-    public var pollViewModel: ComposePollViewModel
-    public var languages: [String]
+public final class ComposeContentViewModel: ObservableObject {
+    @Published public var text: String
+    @Published public var contentWarning: String
+    @Published public var enableContentWarning: Bool
+    @Published public var showEmoji: Bool
+    @Published public var pollViewModel: ComposePollViewModel
+    @Published public var languages: [String]
 
     public init(
         text: String = "",
@@ -28,7 +28,7 @@ public final class ComposeContentViewModel {
     }
 
     public static var defaultLanguages: [String] {
-        if let code = Locale.current.language.languageCode?.identifier {
+        if let code = Locale.current.languageCode {
             return [code]
         }
         return ["en"]

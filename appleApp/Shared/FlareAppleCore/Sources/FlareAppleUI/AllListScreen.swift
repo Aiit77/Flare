@@ -97,7 +97,7 @@ public struct AllListScreen<Destination: Hashable>: View {
             }
         })) {
             if let id = editListId, let editListContent {
-                NavigationStack {
+                FlareNavigationStack {
                     editListContent(id)
                 }
             } else {
@@ -128,7 +128,7 @@ public struct AllListScreen<Destination: Hashable>: View {
         })
         .sheet(isPresented: $showCreateListSheet) {
             if let createListContent {
-                NavigationStack {
+                FlareNavigationStack {
                     createListContent()
                 }
             } else {

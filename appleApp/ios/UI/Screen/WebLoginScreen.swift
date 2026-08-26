@@ -15,7 +15,7 @@ struct WebLoginScreen: View {
         self.url = url
     }
     var body: some View {
-        NavigationStack {
+        FlareNavigationStack {
             if viewModel.canShowWebView {
                 WebView(viewModel.page)
                     .onAppear {

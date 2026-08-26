@@ -1,12 +1,12 @@
+import Combine
 import SwiftUI
 
 private struct IsScrollingKey: EnvironmentKey {
     static let defaultValue = false
 }
 
-@Observable
-public final class IsScrollingState {
-    public var isScrolling: Bool
+public final class IsScrollingState: ObservableObject {
+    @Published public var isScrolling: Bool
 
     public init(isScrolling: Bool = false) {
         self.isScrolling = isScrolling

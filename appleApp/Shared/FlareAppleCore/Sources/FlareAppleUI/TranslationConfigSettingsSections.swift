@@ -329,7 +329,7 @@ private struct TranslationConfigEditSheet: View {
     let field: TranslationConfigEditableField
 
     var body: some View {
-        NavigationStack {
+        FlareNavigationStack {
             Form {
                 Section {
                     TextEditor(text: $state.editingText)
@@ -363,7 +363,7 @@ private struct TranslationExcludedLanguagesSheet: View {
     @ObservedObject var state: TranslationConfigSettingsState
 
     var body: some View {
-        NavigationStack {
+        FlareNavigationStack {
             languageList
             #if os(iOS)
             .environment(\.editMode, .constant(.active))

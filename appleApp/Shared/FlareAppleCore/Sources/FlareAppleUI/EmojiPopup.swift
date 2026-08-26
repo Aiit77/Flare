@@ -54,8 +54,6 @@ public struct EmojiPopup: View {
             )
             #if os(iOS)
             .padding()
-            .backport
-            .glassEffect(.regularInteractive, in: .capsule, fallbackBackground: .regularMaterial)
             #endif
             .padding()
         }

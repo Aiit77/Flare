@@ -293,7 +293,7 @@ private struct AiConfigEditSheet: View {
     let field: AiConfigEditableField
 
     var body: some View {
-        NavigationStack {
+        FlareNavigationStack {
             Form {
                 Section {
                     if field.isMultiline {

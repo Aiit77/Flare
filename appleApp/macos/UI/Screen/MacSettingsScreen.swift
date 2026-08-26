@@ -166,7 +166,7 @@ private struct MacSettingsEmptyState: View {
 
     var body: some View {
         if let description {
-            ContentUnavailableView(
+            FlareContentUnavailableView(
                 title,
                 systemImage: systemImage,
                 description: Text(description)
@@ -175,7 +175,7 @@ private struct MacSettingsEmptyState: View {
             .navigationTitle(pageTitle)
             .navigationSubtitle(Text(pageSubtitle))
         } else {
-            ContentUnavailableView(title, systemImage: systemImage)
+            FlareContentUnavailableView(title, systemImage: systemImage)
                 .frame(maxWidth: .infinity, maxHeight: .infinity)
                 .navigationTitle(pageTitle)
                 .navigationSubtitle(Text(pageSubtitle))
@@ -585,7 +585,7 @@ private struct MacLinkOpenDefaultsInlineSection: View {
             StateView(state: presenter.state.targets) { data in
                 let targets = data.cast(LinkOpenDefaultsPresenter.Target.self)
                 if targets.isEmpty {
-                    ContentUnavailableView(
+                    FlareContentUnavailableView(
                         "settings_link_open_defaults_title",
                         systemImage: "link",
                         description: Text("settings_link_open_defaults_description")
@@ -1108,7 +1108,7 @@ private struct MacAppLogSettingsPane: View {
             }
 
             if messages.isEmpty {
-                ContentUnavailableView("list_empty_title", systemImage: "doc.text.magnifyingglass")
+                FlareContentUnavailableView("list_empty_title", systemImage: "doc.text.magnifyingglass")
             } else {
                 Section("app_log") {
                     ForEach(messages, id: \.self) { message in

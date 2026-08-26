@@ -427,7 +427,7 @@ private struct RssTimelineItemDetailScaffold: View {
                 )
                 .id(selection.id)
             } else {
-                ContentUnavailableView {
+                FlareContentUnavailableView {
                     Label("macos_rss_item_detail_placeholder_title", systemImage: "doc.text")
                 } description: {
                     Text("macos_rss_item_detail_placeholder_description")
@@ -527,7 +527,7 @@ struct RssDetailScreen: View {
                 )
             }
         } errorContent: { error in
-            ContentUnavailableView {
+            FlareContentUnavailableView {
                 Label("rss_detail_title", systemImage: "exclamationmark.triangle")
             } description: {
                 Text(error.message ?? "Unknown error")
@@ -943,7 +943,7 @@ private struct RssEmptyState: View {
     let onAdd: () -> Void
 
     var body: some View {
-        ContentUnavailableView {
+        FlareContentUnavailableView {
             Label("empty_rss_sources", systemImage: "dot.radiowaves.left.and.right")
         } description: {
             Text("macos_placeholder_rss")
@@ -962,7 +962,7 @@ private struct RssEmptyState: View {
 
 private struct RssDetailPlaceholder: View {
     var body: some View {
-        ContentUnavailableView {
+        FlareContentUnavailableView {
             Label("macos_rss_detail_placeholder_title", systemImage: "sidebar.left")
         } description: {
             Text("macos_rss_detail_placeholder_description")
@@ -984,7 +984,7 @@ private struct ImportOPMLScreen: View {
     var body: some View {
         VStack(spacing: 12) {
             if let error = presenter.state.error {
-                ContentUnavailableView {
+                FlareContentUnavailableView {
                     Label("import_error", systemImage: "exclamationmark.triangle")
                 } description: {
                     Text(error)

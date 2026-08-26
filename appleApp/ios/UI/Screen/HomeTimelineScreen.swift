@@ -60,7 +60,7 @@ struct HomeTimelineScreen: View {
             StateView(state: presenter.state.tabState) { state in
                 let tabs: [UiTimelineTabItem] = state.cast(UiTimelineTabItem.self)
                 if tabs.isEmpty {
-                    ContentUnavailableView("tab_settings_title", systemImage: "square.grid.2x2")
+                    FlareContentUnavailableView("tab_settings_title", systemImage: "square.grid.2x2")
                         .toolbar {
                             ToolbarItem(placement: .topBarLeading) {
                                 Image(fontAwesome: .gear)
@@ -436,7 +436,7 @@ private struct DeckTimelineLayout: View {
                 }
             }
         }
-        .scrollIndicators(.hidden)
+        .flareScrollIndicatorsHidden()
     }
 }
 
@@ -454,8 +454,6 @@ private struct DeckTimelineColumnRoot: View {
                     TabIcon(tabItem: tabItem)
                 }
                 .padding()
-                .backport
-                .glassEffect()
             }
             .environment(\.timelineAppearance, tabItem.resolveTimelineAppearance(base: baseTimelineAppearance))
             .id(tabItem.id)

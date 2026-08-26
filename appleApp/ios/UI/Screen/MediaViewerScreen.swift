@@ -236,16 +236,12 @@ struct MediaViewerScreen<SupplementaryOverlay: View>: View {
         if #available(iOS 26.0, *) {
             bottomOverlayContent
                 .padding()
-                .backport
-                .glassEffect(.tinted(.init(.systemGroupedBackground).opacity(0.5)), in: .rect(corners: .concentric, isUniform: true), fallbackBackground: .regularMaterial)
                 .padding()
                 .transition(.move(edge: .bottom).combined(with: .opacity))
         } else {
             bottomOverlayContent
                 .padding()
                 .safeAreaPadding(.bottom)
-                .backport
-                .glassEffect(.regular, in: .rect(cornerRadius: 24, style: .continuous), fallbackBackground: .regularMaterial)
                 .transition(.move(edge: .bottom).combined(with: .opacity))
         }
     }

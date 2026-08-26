@@ -11,8 +11,14 @@ public struct AvatarView: View {
         self.customHeader = customHeader
     }
 
+    @ViewBuilder
     public var body: some View {
-        NetworkImage(data: data, customHeader: customHeader)
-            .clipShape(avatarShape == .circle ? AnyShape(.circle) : AnyShape(.rect(cornerRadius: 8)))
+        if avatarShape == .circle {
+            NetworkImage(data: data, customHeader: customHeader)
+                .clipShape(Circle())
+        } else {
+            NetworkImage(data: data, customHeader: customHeader)
+                .clipShape(RoundedRectangle(cornerRadius: 8))
+        }
     }
 }

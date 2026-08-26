@@ -121,8 +121,6 @@ struct DMConversationScreen: View {
                 HStack {
                     TextField("dm_conversation_input_placeholder", text: $inputText)
                         .padding()
-                        .backport
-                        .glassEffect(.regularInteractive, in: .capsule, fallbackBackground: .regularMaterial)
                     Button(action: {
                         presenter.state.send(message: inputText)
                         inputText = ""
@@ -130,13 +128,10 @@ struct DMConversationScreen: View {
                         Image(systemName: "paperplane.fill")
                             .font(.title2)
                     }
-                    .backport
-                    .glassProminentButtonStyle()
+                    .buttonStyle(.borderedProminent)
                     .disabled(inputText.isEmpty)
                 }
                 .padding([.horizontal, .bottom])
-                .backport
-                .glassEffectContainer()
             }
     }
 }

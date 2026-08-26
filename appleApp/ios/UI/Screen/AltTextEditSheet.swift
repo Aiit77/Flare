@@ -3,11 +3,11 @@ import PhotosUI
 
 struct AltTextEditSheet: View {
     @Environment(\.dismiss) var dismiss
-    @Bindable var item: MediaItem
+    @ObservedObject var item: MediaItem
     let maxLength: Int
     
     var body: some View {
-        NavigationStack {
+        FlareNavigationStack {
             VStack {
                 if let image = item.image {
                     Image(uiImage: image)

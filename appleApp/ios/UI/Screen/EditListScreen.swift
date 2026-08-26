@@ -128,7 +128,7 @@ struct EditListScreen: View {
         })
         .navigationTitle("edit_list_title")
         .sheet(isPresented: $showEditMember, content: {
-            NavigationStack {
+            FlareNavigationStack {
                 EditListMemberScreen(accountType: accountType, listId: listId)
             }
         })

@@ -32,8 +32,7 @@ public struct ListErrorView: View {
                 } label: {
                     Text("error_login_expired_action", bundle: FlareAppleUILocalization.bundle)
                 }
-                .backport
-                .glassProminentButtonStyle()
+                .buttonStyle(.borderedProminent)
             } else if let reloginError = error as? RequireReLoginException {
                 Image(systemName: "person.badge.shield.exclamationmark")
                     .resizable()
@@ -53,8 +52,7 @@ public struct ListErrorView: View {
                 } label: {
                     Text("error_login_expired_action", bundle: FlareAppleUILocalization.bundle)
                 }
-                .backport
-                .glassProminentButtonStyle()
+                .buttonStyle(.borderedProminent)
             } else  {
                 Image(systemName: "exclamationmark.triangle.text.page")
                     .resizable()
@@ -68,8 +66,7 @@ public struct ListErrorView: View {
                 } label: {
                     Text("action_retry", bundle: FlareAppleUILocalization.bundle)
                 }
-                .backport
-                .glassProminentButtonStyle()
+                .buttonStyle(.borderedProminent)
                 if let message = error.message {
                     Text(message)
                         .font(.caption)

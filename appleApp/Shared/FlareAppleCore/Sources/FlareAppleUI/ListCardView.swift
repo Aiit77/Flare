@@ -20,31 +20,14 @@ public struct ListCardView<Content: View>: View {
 
     public var body: some View {
         content()
-            .background {
-                UnevenRoundedRectangle(
-                    cornerRadii: cornerRadii,
-                    style: .continuous
-                )
-                .fill(Color.flareSecondarySystemGroupedBackground)
-            }
+            .background(
+                RoundedRectangle(cornerRadius: resolvedCornerRadius, style: .continuous)
+                    .fill(Color.flareSecondarySystemGroupedBackground)
+            )
     }
 
-    private var cornerRadii: RectangleCornerRadii {
-        if isMultipleColumn {
-            RectangleCornerRadii(
-                topLeading: cornerRadius,
-                bottomLeading: cornerRadius,
-                bottomTrailing: cornerRadius,
-                topTrailing: cornerRadius
-            )
-        } else {
-            RectangleCornerRadii(
-                topLeading: index == 0 ? cornerRadius : 4,
-                bottomLeading: index == totalCount - 1 ? cornerRadius : 4,
-                bottomTrailing: index == totalCount - 1 ? cornerRadius : 4,
-                topTrailing: index == 0 ? cornerRadius : 4
-            )
-        }
+    private var resolvedCornerRadius: CGFloat {
+        isMultipleColumn || (index == 0 && index == totalCount - 1) ? cornerRadius : 8
     }
 }
 

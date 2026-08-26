@@ -1,4 +1,5 @@
 import SwiftUI
+import Combine
 import KotlinSharedUI
 import FlareAppleCore
 import FlareAppleUI
@@ -43,8 +44,8 @@ struct ComposeScreen: View {
     @FocusState private var keyboardFocused: Bool
     @FocusState private var cwKeyboardFocused: Bool
     @StateObject private var presenter: KotlinPresenter<ComposeState>
-    @State private var viewModel = ComposeContentViewModel()
-    @State private var mediaViewModel = MediaViewModel()
+    @StateObject private var viewModel = ComposeContentViewModel()
+    @StateObject private var mediaViewModel = MediaViewModel()
     @State private var uiTextView: UITextView?
     @State private var pendingCursor: Int?
     @State private var initialTextApplied = false
@@ -76,7 +77,7 @@ struct ComposeScreen: View {
                     
                     TextEditor(text: $viewModel.text)
                         .font(.body)
-                        .scrollContentBackground(.hidden)
+                        .flareScrollContentBackgroundHidden()
                         .textInputAutocapitalization(.sentences)
                         .keyboardType(.twitter)
                         .introspect(.textEditor, on: .iOS(.v16, .v17, .v18, .v26, .v27)) { textView in
@@ -128,12 +129,10 @@ struct ComposeScreen: View {
                 }
                 .padding(.horizontal)
             }
-            .scrollIndicators(.hidden)
+            .flareScrollIndicatorsHidden()
             .safeAreaInset(edge: .bottom) {
                 composeActionBar
                     .padding()
-                    .backport
-                    .glassEffect(.regular, in: .capsule, fallbackBackground: .regularMaterial)
                     .padding()
             }
             
@@ -592,7 +591,7 @@ struct ComposeScreen: View {
     }
 
     private var draftSheet: some View {
-        NavigationStack {
+        FlareNavigationStack {
             DraftBoxScreen { groupId in
                 presenter.state.loadDraft(groupId: groupId)
                 showDraftSheet = false
@@ -603,14 +602,13 @@ struct ComposeScreen: View {
 
 }
 
-@Observable
-class MediaViewModel {
-    var selectedItems: [PhotosPickerItem] = []
-    var items: [MediaItem] = []
-    var sensitive = false
-    var maxSize = 4
-    var enableAltText = true
-    var altTextMaxLength = 500
+class MediaViewModel: ObservableObject {
+    @Published var selectedItems: [PhotosPickerItem] = []
+    @Published var items: [MediaItem] = []
+    @Published var sensitive = false
+    @Published var maxSize = 4
+    @Published var enableAltText = true
+    @Published var altTextMaxLength = 500
     func update() {
         if selectedItems.count > maxSize {
             selectedItems = Array(selectedItems.suffix(maxSize))
@@ -637,18 +635,17 @@ class MediaViewModel {
     }
 }
 
-@Observable
-class MediaItem: Equatable, Identifiable {
+class MediaItem: ObservableObject, Equatable, Identifiable {
     static func == (lhs: MediaItem, rhs: MediaItem) -> Bool {
         lhs.id == rhs.id
     }
     let item: PhotosPickerItem?
-    var image: UIImage?
-    var data: Data?
-    var altText: String = ""
+    @Published var image: UIImage?
+    @Published var data: Data?
+    @Published var altText: String = ""
     let id: String
     let fileName: String
-    var type: FileType = .other
+    @Published var type: FileType = .other
     
     init(item: PhotosPickerItem) {
         self.item = item

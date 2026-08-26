@@ -111,7 +111,7 @@ public struct ComposeActionBarContent<MediaControl: View>: View {
                 .buttonStyle(.plain)
                 .labelStyle(.iconOnly)
             }
-            .scrollIndicators(.hidden)
+            .flareScrollIndicatorsHidden()
 
             Spacer()
 
@@ -192,7 +192,7 @@ public struct ComposeEmojiButton: View {
                 }
             }
             .popover(isPresented: isPresented, arrowEdge: .bottom) {
-                NavigationStack {
+                FlareNavigationStack {
                     EmojiPopup(data: emojis, onItemClicked: onSelect)
                         .toolbar {
                             ToolbarItem(placement: .cancellationAction) {

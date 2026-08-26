@@ -1,17 +1,17 @@
 import SwiftUI
 import SwiftUIBackports
 
-public extension Backport where Content: View {
+public extension Backport where Wrapped: View {
     @ViewBuilder
     func flareLabelIconToTitleSpacing(_ spacing: CGFloat) -> some View {
         #if os(iOS)
         if #available(iOS 26.0, *) {
-            content.labelIconToTitleSpacing(spacing)
+            wrapped.labelIconToTitleSpacing(spacing)
         } else {
-            content.labelStyle(FlareBackportLabelStyle(spacing: spacing))
+            wrapped.labelStyle(FlareBackportLabelStyle(spacing: spacing))
         }
         #else
-        content.labelStyle(FlareBackportLabelStyle(spacing: spacing))
+        wrapped.labelStyle(FlareBackportLabelStyle(spacing: spacing))
         #endif
     }
 }

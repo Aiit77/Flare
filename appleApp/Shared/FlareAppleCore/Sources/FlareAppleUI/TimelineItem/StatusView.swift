@@ -291,8 +291,7 @@ public struct StatusView: View {
                                                         Text("mastodon_item_show_more", bundle: FlareAppleUILocalization.bundle)
                                                     }
                                                 }
-                                                .backport
-                                                .glassProminentButtonStyle()
+                                                .buttonStyle(.borderedProminent)
                                             }
                                         }
                                         .padding(.vertical, 4)
@@ -683,8 +682,7 @@ struct StatusMediaContent: View {
                     Image(fontAwesome: .image)
                 }
             }
-            .backport
-            .glassButtonStyle(fallbackStyle: .bordered)
+            .buttonStyle(.bordered)
         }
     }
 }

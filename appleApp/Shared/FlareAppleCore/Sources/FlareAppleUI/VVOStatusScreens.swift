@@ -83,7 +83,7 @@ public struct VVOStatusScreen: View {
                 }
             }
             .detectScrolling()
-            .scrollContentBackground(.hidden)
+            .flareScrollContentBackgroundHidden()
             .vvoListRowSpacing()
             .listStyle(.plain)
         }
@@ -150,7 +150,7 @@ public struct VVOCommentScreen: View {
             TimelinePagingListContent(data: presenter.state.list, usesDefaultHorizontalPadding: true)
         }
         .detectScrolling()
-        .scrollContentBackground(.hidden)
+        .flareScrollContentBackgroundHidden()
         .vvoListRowSpacing()
         .listStyle(.plain)
         .background(Color.flareSystemGroupedBackground)

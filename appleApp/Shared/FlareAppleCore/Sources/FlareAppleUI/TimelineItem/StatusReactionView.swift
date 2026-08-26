@@ -17,7 +17,7 @@ struct StatusReactionView: View {
                     reactionContent
                 }
             }
-            .scrollIndicators(.hidden)
+            .flareScrollIndicatorsHidden()
         }
     }
     

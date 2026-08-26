@@ -77,7 +77,7 @@ struct RssScreen: View {
             }
         }
         .sheet(isPresented: $showAddSheet) {
-            NavigationStack {
+            FlareNavigationStack {
                 EditRssSheet(id: nil, onImportOPML: { url in
                     showAddSheet = false
                     importOpmlUrl = url
@@ -85,7 +85,7 @@ struct RssScreen: View {
             }
         }
         .sheet(item: $selectedEditItem) { item in
-            NavigationStack {
+            FlareNavigationStack {
                 EditRssSheet(
                     id: Int(item.id),
                     initialUrl: item.url,
@@ -97,7 +97,7 @@ struct RssScreen: View {
             }
         }
         .sheet(item: $importOpmlUrl) { url in
-            NavigationStack {
+            FlareNavigationStack {
                 ImportOPMLScreen(url: url)
             }
         }

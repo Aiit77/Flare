@@ -79,7 +79,7 @@ struct FlareRoot: View {
             .tabBarMinimizeBehavior(.onScrollDown)
             .background(Color(.systemGroupedBackground))
             .sheet(item: $reloginRoute) { route in
-                NavigationStack {
+                FlareNavigationStack {
                     route.view(
                         onNavigate: { reloginRoute = $0 },
                         goBack: { reloginRoute = nil }
@@ -168,7 +168,7 @@ struct BackportFlareRoot: View {
             })
             .background(Color(.systemGroupedBackground))
             .sheet(item: $reloginRoute) { route in
-                NavigationStack {
+                FlareNavigationStack {
                     route.view(
                         onNavigate: { reloginRoute = $0 },
                         goBack: { reloginRoute = nil }

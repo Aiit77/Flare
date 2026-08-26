@@ -80,8 +80,7 @@ public struct VideoControlView: View {
                         .contentTransition(.symbolEffect(.replace))
                 }
                 .contentShape(Rectangle())
-                .backport
-                .glassButtonStyle(fallbackStyle: .plain)
+                .buttonStyle(.plain)
 
                 Text(formatTime(sliderValue))
                     .font(.caption)
