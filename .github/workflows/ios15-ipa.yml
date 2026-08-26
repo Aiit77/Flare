@@ -1,0 +1,108 @@
+name: iOS 15 IPA Build
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - feature/ios15-ipa-build
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ios15-ipa-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  build-ios15-ipa:
+    name: Build unsigned iOS 15 IPA
+    runs-on: macos-15
+    timeout-minutes: 90
+    env:
+      ARCHIVE_PATH: ${{ runner.temp }}/Flare.xcarchive
+      IPA_NAME: Flare-1.7.4-ios15-unsigned.ipa
+    steps:
+      - name: Check out source
+        uses: actions/checkout@v4
+        with:
+          submodules: recursive
+
+      - name: Set up JDK
+        uses: actions/setup-java@v5
+        with:
+          distribution: zulu
+          java-version: '21'
+          cache: gradle
+
+      - name: Show build tools
+        run: |
+          xcodebuild -version
+          java -version
+          ./gradlew --version
+
+      - name: Install XcodeGen
+        run: brew install xcodegen
+
+      - name: Generate Xcode project
+        run: xcodegen generate --spec appleApp/project.yml
+
+      - name: Resolve Swift packages
+        working-directory: appleApp
+        run: |
+          xcodebuild -resolvePackageDependencies \
+            -project Flare.xcodeproj \
+            -scheme iOS
+
+      - name: Archive unsigned device build
+        id: archive
+        continue-on-error: true
+        working-directory: appleApp
+        run: |
+          set -o pipefail
+          xcodebuild archive \
+            -project Flare.xcodeproj \
+            -scheme iOS \
+            -configuration Release \
+            -sdk iphoneos \
+            -destination 'generic/platform=iOS' \
+            -archivePath "$ARCHIVE_PATH" \
+            CODE_SIGNING_ALLOWED=NO \
+            CODE_SIGNING_REQUIRED=NO \
+            CODE_SIGN_IDENTITY='' \
+            FIREBASE_CRASHLYTICS_UPLOAD_SYMBOLS=NO \
+            2>&1 | tee "$RUNNER_TEMP/ios15-build.log"
+
+      - name: Package unsigned IPA
+        if: steps.archive.outcome == 'success'
+        run: |
+          set -euo pipefail
+          APP_PATH="$ARCHIVE_PATH/Products/Applications/Flare.app"
+          test -d "$APP_PATH"
+          mkdir -p Payload
+          cp -R "$APP_PATH" Payload/
+          ditto -c -k --sequesterRsrc --keepParent Payload "$IPA_NAME"
+          unzip -t "$IPA_NAME"
+          mkdir -p artifacts
+          mv "$IPA_NAME" artifacts/
+
+      - name: Upload build log
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: ios15-build-log
+          path: ${{ runner.temp }}/ios15-build.log
+          if-no-files-found: warn
+          retention-days: 14
+
+      - name: Upload unsigned IPA
+        if: steps.archive.outcome == 'success'
+        uses: actions/upload-artifact@v4
+        with:
+          name: Flare-1.7.4-ios15-unsigned
+          path: artifacts/${{ env.IPA_NAME }}
+          if-no-files-found: error
+          retention-days: 14
+
+      - name: Mark build failed when archive failed
+        if: steps.archive.outcome != 'success'
+        run: exit 1
