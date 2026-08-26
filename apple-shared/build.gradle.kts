@@ -43,8 +43,10 @@ kotlin {
             // The shared static framework exports a large KMP graph. Kotlin/Native's
             // devirtualization analysis exhausts the hosted macOS runner during Release
             // linking, while this optimization does not affect functional behavior.
-            appleTarget.compilerOptions {
-                freeCompilerArgs.add("-Xdisable-phases=DevirtualizationAnalysis")
+            appleTarget.compilations.configureEach {
+                compilerOptions.configure {
+                    freeCompilerArgs.add("-Xdisable-phases=DevirtualizationAnalysis")
+                }
             }
 
             appleTarget.binaries.framework {
