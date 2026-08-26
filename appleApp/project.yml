@@ -84,7 +84,8 @@ packages:
     branch: main
   swiftui-introspect:
     url: https://github.com/siteline/swiftui-introspect
-    exactVersion: 27.0.0-beta.1
+    # Swift tools 6.0 / iOS 13 minimum; compatible with Xcode 16 on macOS 15.
+    exactVersion: 26.0.1
   VideoPlayer:
     url: https://github.com/wxxsw/VideoPlayer
     exactVersion: 1.2.5
