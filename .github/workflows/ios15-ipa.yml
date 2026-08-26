@@ -16,9 +16,9 @@ concurrency:
 jobs:
   build-ios15-ipa:
     name: Build unsigned iOS 15 IPA
-    # iOS-Backports 1.0.5 declares Swift tools 6.2; use the source project's
-    # macOS 26 image so the resolver has a compatible Swift/Xcode toolchain.
-    runs-on: macos-26
+    # Current replacement packages use Swift tools 5.9 or lower; macOS 15
+    # provides a compatible toolchain and avoids the macOS 26 queue backlog.
+    runs-on: macos-15
     # Kotlin/Native 需要首次下载并编译多个跨平台模块；首次冷构建可能显著更慢。
     timeout-minutes: 180
     env:
