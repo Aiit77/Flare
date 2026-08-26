@@ -192,6 +192,7 @@ targets:
       groups:
         - appleApp
       base:
+        ASSETCATALOG_COMPILER_APPICON_NAME: AppIcon_black
         ASSETCATALOG_COMPILER_ALTERNATE_APPICON_NAMES: "AppIcon_black AppIcon_blue AppIcon_cyan AppIcon_light_blue AppIcon_orange AppIcon_red AppIcon_teal AppIcon_white AppIcon_yellow"
         ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS: NO
         DEBUG_INFORMATION_FORMAT: dwarf-with-dsym
