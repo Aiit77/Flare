@@ -1,17 +1,17 @@
 import SwiftUI
 import SwiftUIBackports
 
-public extension Backport where Content: View {
+public extension Backport where Wrapped: View {
     func labelIconToTitleSpacing(_ spacing: CGFloat) -> some View {
-        content.labelStyle(BackportLabelStyle(spacing: spacing))
+        wrapped.labelStyle(BackportLabelStyle(spacing: spacing))
     }
     
     func navigationSubtitle(_ subtitle: Text) -> some View {
-        content
+        wrapped
     }
     
     func navigationSubtitle<S>(_ subtitle: S) -> some View where S : StringProtocol {
-        content
+        wrapped
     }
 }
 
@@ -25,13 +25,14 @@ struct BackportLabelStyle: LabelStyle {
     }
 }
 
-public extension Backport where Content: View {
+public extension Backport where Wrapped: View {
+    @available(iOS 17.0, macOS 14.0, *)
     @ViewBuilder
     func textRenderer<T>(_ renderer: T) -> some View where T : TextRenderer {
         if #available(iOS 18.0, macOS 15.0, *) {
-            content.textRenderer(renderer)
+            wrapped.textRenderer(renderer)
         } else {
-            content
+            wrapped
         }
     }
 }
