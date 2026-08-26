@@ -40,6 +40,15 @@ kotlin {
     listOf("iosArm64", "iosSimulatorArm64", "macosArm64")
         .map { targetName -> targets.getByName(targetName) as KotlinNativeTarget }
         .forEach { appleTarget ->
+            // The shared static framework exports a large KMP graph. Kotlin/Native's
+            // devirtualization analysis exhausts the hosted macOS runner during Release
+            // linking, while this optimization does not affect functional behavior.
+            appleTarget.compilations.configureEach {
+                compilerOptions {
+                    freeCompilerArgs.add("-Xdisable-phases=DevirtualizationAnalysis")
+                }
+            }
+
             appleTarget.binaries.framework {
                 baseName = "KotlinSharedUI"
                 isStatic = true
