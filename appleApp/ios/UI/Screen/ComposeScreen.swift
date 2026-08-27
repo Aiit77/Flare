@@ -92,7 +92,7 @@ struct ComposeScreen: View {
         .sheet(isPresented: $showDraftSheet) {
             draftSheet
         }
-        .toolbarTitleDisplayMode(.inline)
+        .navigationBarTitleDisplayMode(.inline)
         .toolbar {
             ToolbarItem(placement: .principal) {
                 Text(composeTitle)
@@ -122,14 +122,14 @@ struct ComposeScreen: View {
                     Text("Save your current content as a draft before leaving?")
                 }
             }
-            if presenter.state.showDraft {
-                ToolbarItem(placement: .topBarTrailing) {
-                    Button {
-                        showDraftSheet = true
-                    } label: {
-                        Text("Drafts")
-                    }
+            ToolbarItem(placement: .navigationBarTrailing) {
+                Button {
+                    showDraftSheet = true
+                } label: {
+                    Text("Drafts")
                 }
+                .opacity(presenter.state.showDraft ? 1 : 0)
+                .disabled(!presenter.state.showDraft)
             }
             ToolbarItem(placement: .confirmationAction) {
                 Button {
