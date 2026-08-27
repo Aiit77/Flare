@@ -87,6 +87,16 @@ struct NotificationScreen: View {
         return isAtTop && !isTabRefreshInFlight && !timeline.isRefreshing
     }
 
+    private func startTabRefresh() {
+        isTabRefreshInFlight = true
+        Task {
+            try? await presenter.state.refreshSuspend()
+            await MainActor.run {
+                isTabRefreshInFlight = false
+            }
+        }
+    }
+
     var body: some View {
         UITimelinePagingView(
             data: presenter.state.timeline,
@@ -101,12 +111,8 @@ struct NotificationScreen: View {
             }
             .onReceive(NotificationCenter.default.publisher(for: .tabDoubleTapped)) { notification in
                 guard shouldRefreshForTabDoubleTap(notification) else { return }
-                isTabRefreshInFlight = true
                 UIImpactFeedbackGenerator(style: .medium).impactOccurred()
-                Task {
-                    defer { isTabRefreshInFlight = false }
-                    try? await presenter.state.refreshSuspend()
-                }
+                startTabRefresh()
             }
             .detectScrolling()
             .if(!notificationItems.isEmpty && horizontalSizeClass == .compact && !isSyncingAccountSelection) { view in

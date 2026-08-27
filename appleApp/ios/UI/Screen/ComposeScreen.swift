@@ -86,9 +86,6 @@ struct ComposeScreen: View {
                         }
                         .frame(minHeight: 120)
                         .focused($keyboardFocused)
-                        .overlay(alignment: .topLeading) {
-                            composePlaceholder
-                        }
                         .onAppear {
                             requestDefaultFocus()
                         }
