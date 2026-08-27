@@ -167,14 +167,7 @@ struct ComposeScreen: View {
         .toolbarTitleDisplayMode(.inline)
         .toolbar {
             ToolbarItem(placement: .principal) {
-                switch onEnum(of: presenter.state.composeStatus) {
-                case .none:
-                    Text("compose_title_new")
-                case .quote:
-                    Text("compose_title_quote")
-                case .reply:
-                    Text("compose_title_reply")
-                }
+                Text(composeTitle)
             }
             ToolbarItem(placement: .cancellationAction) {
                 Button {
@@ -487,6 +480,17 @@ struct ComposeScreen: View {
             sensitive: mediaViewModel.sensitive,
             composeStatus: presenter.state.composeStatus
         )
+    }
+
+    private var composeTitle: LocalizedStringKey {
+        switch onEnum(of: presenter.state.composeStatus) {
+        case .none:
+            return "compose_title_new"
+        case .quote:
+            return "compose_title_quote"
+        case .reply:
+            return "compose_title_reply"
+        }
     }
 
     private var hasDraftContent: Bool {
