@@ -56,69 +56,7 @@ struct ComposeScreen: View {
     @State private var showAccountPicker = false
 
     var body: some View {
-        VStack(
-            spacing: 8
-        ) {
-            accountSelectionView
-            ScrollView {
-                VStack(
-                    spacing: 8
-                ) {
-                    if viewModel.enableContentWarning {
-                        TextField(text: $viewModel.contentWarning) {
-                            Text("compose_cw_placeholder")
-                        }
-                        .textFieldStyle(.plain)
-                        .textInputAutocapitalization(.sentences)
-                        .keyboardType(.twitter)
-                        .focused($cwKeyboardFocused)
-                        Divider()
-                    }
-                    
-                    TextEditor(text: $viewModel.text)
-                        .font(.body)
-                        .flareScrollContentBackgroundHidden()
-                        .textInputAutocapitalization(.sentences)
-                        .keyboardType(.twitter)
-                        .frame(minHeight: 120)
-                        .focused($keyboardFocused)
-                        .onAppear {
-                            requestDefaultFocus()
-                        }
-                    Spacer()
-                    if mediaViewModel.items.count > 0 {
-                        ScrollView(.horizontal) {
-                            HStack {
-                                ForEach(mediaViewModel.items) { item in
-                                    ComposeMediaItemView(item: item, mediaViewModel: mediaViewModel)
-                                }
-                            }
-                        }
-                        StateView(state: presenter.state.composeConfig) { config in
-                            if let media = config.media, media.canSensitive {
-                                Toggle(isOn: $mediaViewModel.sensitive, label: {
-                                    Text("compose_media_mark_sensitive")
-                                })
-                            }
-                        }
-                    }
-                    if viewModel.pollViewModel.enabled {
-                        ComposePollSection(
-                            viewModel: viewModel.pollViewModel,
-                            maxChoices: maxPollOptions
-                        )
-                    }
-                }
-                .padding(.horizontal)
-            }
-            .flareScrollIndicatorsHidden()
-            .safeAreaInset(edge: .bottom) {
-                composeActionBar
-                    .padding()
-                    .padding()
-            }
-            
-        }
+        composeRootView
         .onAppear {
             applyPrefillIfNeeded()
         }
@@ -204,6 +142,86 @@ struct ComposeScreen: View {
                     }
                 }
                 .disabled(!presenter.state.canSend)
+            }
+        }
+    }
+
+    private var composeRootView: some View {
+        VStack(spacing: 8) {
+            accountSelectionView
+            composeEditorScrollView
+        }
+    }
+
+    private var composeEditorScrollView: some View {
+        ScrollView {
+            VStack(spacing: 8) {
+                composeEditorContent
+            }
+            .padding(.horizontal)
+        }
+        .flareScrollIndicatorsHidden()
+        .safeAreaInset(edge: .bottom) {
+            composeActionBar
+                .padding()
+                .padding()
+        }
+    }
+
+    @ViewBuilder
+    private var composeEditorContent: some View {
+        if viewModel.enableContentWarning {
+            TextField(text: $viewModel.contentWarning) {
+                Text("compose_cw_placeholder")
+            }
+            .textFieldStyle(.plain)
+            .textInputAutocapitalization(.sentences)
+            .keyboardType(.twitter)
+            .focused($cwKeyboardFocused)
+            Divider()
+        }
+
+        composeTextEditor
+        Spacer()
+        composeMediaSection
+
+        if viewModel.pollViewModel.enabled {
+            ComposePollSection(
+                viewModel: viewModel.pollViewModel,
+                maxChoices: maxPollOptions
+            )
+        }
+    }
+
+    private var composeTextEditor: some View {
+        TextEditor(text: $viewModel.text)
+            .font(.body)
+            .flareScrollContentBackgroundHidden()
+            .textInputAutocapitalization(.sentences)
+            .keyboardType(.twitter)
+            .frame(minHeight: 120)
+            .focused($keyboardFocused)
+            .onAppear {
+                requestDefaultFocus()
+            }
+    }
+
+    @ViewBuilder
+    private var composeMediaSection: some View {
+        if !mediaViewModel.items.isEmpty {
+            ScrollView(.horizontal) {
+                HStack {
+                    ForEach(mediaViewModel.items) { item in
+                        ComposeMediaItemView(item: item, mediaViewModel: mediaViewModel)
+                    }
+                }
+            }
+            StateView(state: presenter.state.composeConfig) { config in
+                if let media = config.media, media.canSensitive {
+                    Toggle(isOn: $mediaViewModel.sensitive) {
+                        Text("compose_media_mark_sensitive")
+                    }
+                }
             }
         }
     }
