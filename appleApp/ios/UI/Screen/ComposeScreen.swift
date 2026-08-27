@@ -108,11 +108,6 @@ struct ComposeScreen: View {
                             maxChoices: maxPollOptions
                         )
                     }
-                    if let replyState = presenter.state.replyState,
-                       case .success(let reply) = onEnum(of: replyState),
-                       let content = reply.data.timelineContentPost {
-                        ComposeReferenceStatusPreview(data: content)
-                    }
                 }
                 .padding(.horizontal)
             }
