@@ -80,10 +80,6 @@ struct ComposeScreen: View {
                         .flareScrollContentBackgroundHidden()
                         .textInputAutocapitalization(.sentences)
                         .keyboardType(.twitter)
-                        .introspect(.textEditor, on: .iOS(.v16, .v17, .v18, .v26, .v27)) { textView in
-                            self.uiTextView = textView
-                            applyCursorIfPossible()
-                        }
                         .frame(minHeight: 120)
                         .focused($keyboardFocused)
                         .onAppear {

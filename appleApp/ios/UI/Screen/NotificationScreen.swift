@@ -122,19 +122,28 @@ struct NotificationScreen: View {
                     }
             }
             .toolbar {
-                if notificationItems.count > 1 {
-                    ToolbarItem {
-                        NotificationAccountsMenu(
-                            items: notificationItems,
-                            selectedStableKey: $selectedAccountStableKey
-                        )
-                    }
-                    if horizontalSizeClass == .regular && !isSyncingAccountSelection {
-                        ToolbarItem {
-                            filterSegments
+                ToolbarItem {
+                    Group {
+                        if notificationItems.count > 1 {
+                            NotificationAccountsMenu(
+                                items: notificationItems,
+                                selectedStableKey: $selectedAccountStableKey
+                            )
+                        } else {
+                            EmptyView()
                         }
                     }
-
+                }
+                ToolbarItem {
+                    Group {
+                        if notificationItems.count > 1,
+                           horizontalSizeClass == .regular,
+                           !isSyncingAccountSelection {
+                            filterSegments
+                        } else {
+                            EmptyView()
+                        }
+                    }
                 }
             }
             .onAppear {
