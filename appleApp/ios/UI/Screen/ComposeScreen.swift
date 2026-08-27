@@ -140,11 +140,6 @@ struct ComposeScreen: View {
                 mediaViewModel.altTextMaxLength = Int(media.altTextMaxLength)
             }
         }
-        .onChange(of: presenter.state.loadedDraftState) { newValue in
-            guard let newValue, case .success(let loadedDraft) = onEnum(of: newValue) else { return }
-            applyDraft(loadedDraft.data)
-            presenter.state.consumeLoadedDraft()
-        }
         .onChange(of: viewModel.text) { newValue in
             presenter.state.setText(value: newValue)
         }
